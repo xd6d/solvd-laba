@@ -34,18 +34,7 @@ public class Sorting {
     }
 
     public static void quickSort(int[] arr) {
-        int pivot = arr[arr.length - 1];
-        int imax = 0;
-        for (int i = 0; i < arr.length; i++) {
-            if (pivot >= arr[i]) {
-                int temp = arr[i];
-                arr[i] = arr[imax];
-                arr[imax] = temp;
-                imax++;
-            }
-        }
-        quickSort(arr, 0, imax - 1);
-        quickSort(arr, imax, arr.length);
+        quickSort(arr, 0, arr.length);
     }
 
     private static void quickSort(int[] arr, int start, int end) {
