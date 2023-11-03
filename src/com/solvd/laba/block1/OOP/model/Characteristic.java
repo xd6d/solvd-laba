@@ -1,4 +1,4 @@
-package com.solvd.laba.block1.task2.model;
+package com.solvd.laba.block1.OOP.model;
 
 public class Characteristic {
     private String name;

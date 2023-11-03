@@ -1,7 +1,4 @@
-package com.solvd.laba.block1.task2.model;
-
-import java.util.HashMap;
-import java.util.Map;
+package com.solvd.laba.block1.OOP.model;
 
 public class User {
     private String name;
@@ -9,7 +6,7 @@ public class User {
     private String email;
     private String contactPhone;
     private String password;
-    private Map<Product, Integer> bucket;
+    private Bucket bucket;
 
     public User(String name, String lastName, String email, String contactPhone, String password) {
         this.name = name;
@@ -17,7 +14,6 @@ public class User {
         this.email = email;
         this.contactPhone = contactPhone;
         this.password = password;
-        this.bucket = new HashMap<>();
     }
 
     public String getName() {
@@ -52,11 +48,11 @@ public class User {
         this.password = password;
     }
 
-    public Map<Product, Integer> getBucket() {
+    public Bucket getBucket() {
         return bucket;
     }
 
-    public void setBucket(Map<Product, Integer> bucket) {
+    public void setBucket(Bucket bucket) {
         this.bucket = bucket;
     }
 

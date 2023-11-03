@@ -1,7 +1,7 @@
-package com.solvd.laba.block1.task2;
+package com.solvd.laba.block1.OOP;
 
 
-import com.solvd.laba.block1.task2.model.*;
+import com.solvd.laba.block1.OOP.model.*;
 
 public class Demo {
     public static void main(String[] args) {
@@ -15,8 +15,7 @@ public class Demo {
 
         //creating organizations
         Organization shop1 = new Organization("Best Technics", seller1);
-        Organization shop2 = new Organization("Best Furniture", seller1);
-        Organization shop3 = new Organization("Best Shop", seller2);
+        Organization shop2 = new Organization("Best Shop", seller2);
 
         //creating categories
         Category tv = new Category("TV");
@@ -29,19 +28,24 @@ public class Demo {
 
         //create products
         Product samsungTV = new Product("Samsung SmartTV 1", 1000, tv, samsung, shop1);
-        Product zaraShirt = new Product("Zara shirt black", 50, clothes, zara, shop3);
-        Product levisJeans = new Product("Levis jeans classic", 70, clothes, levis, shop3);
+        Product zaraShirt = new Product("Zara shirt black", 50, clothes, zara, shop2);
+        Characteristic sizeM = new Characteristic("Size", "M");
+        zaraShirt.addCharacteristic(sizeM);
+        Product levisJeans = new Product("Levis jeans classic", 70, clothes, levis, shop2);
+        levisJeans.addCharacteristic(sizeM);
 
         //create order
-        var myBucket = me.getBucket();
-        myBucket.put(zaraShirt, 2);
-        myBucket.put(levisJeans, 1);
-        Order myOrder = new Order(me, myBucket, me.getContactPhone(), "Kyiv");
+        Bucket myBucket = new Bucket(me, new Product[]{zaraShirt, zaraShirt, levisJeans});
+        Order myOrder = new Order(me, myBucket, me.getContactPhone(), "Kyiv", PaymentMethod.CASH);
+
+        //Get price of order and output it
+        double total = myOrder.getTotal();
+        System.out.println(total);
 
         //create review
         Review review1 = new Review(zaraShirt, me, 4.4, "Like it, but not perfect");
         Review review2 = new Review(levisJeans, me, 5, "I dress them everytime");
-        zaraShirt.getReviews().add(review1);
-        levisJeans.getReviews().add(review2);
+        zaraShirt.addReview(review1);
+        levisJeans.addReview(review2);
     }
 }

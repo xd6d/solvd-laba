@@ -1,18 +1,19 @@
-package com.solvd.laba.block1.task2.model;
-
-import java.util.ArrayList;
-import java.util.List;
+package com.solvd.laba.block1.OOP.model;
 
 public class Product {
+    private static long nextId = 0;
+    private final long id = nextId++;
     private String name;
     private double price;
     private Category category;
     private Brand brand;
     private final Organization seller;
     private String description;
-    private List<CreditOption> creditOptions;
-    private List<Review> reviews;
-    private List<Characteristic> characteristics;
+    private CreditOption[] creditOptions;
+    private Review[] reviews;
+    private int nextReview = 0;
+    private Characteristic[] characteristics;
+    private int nextCharacteristic = 0;
 
     public Product(String name, double price, Category category, Brand brand, Organization seller) {
         this.name = name;
@@ -21,9 +22,9 @@ public class Product {
         this.brand = brand;
         this.seller = seller;
         this.description = "";
-        creditOptions = new ArrayList<>();
-        reviews = new ArrayList<>();
-        characteristics = new ArrayList<>();
+        creditOptions = new CreditOption[20];
+        reviews = new Review[100];
+        characteristics = new Characteristic[100];
     }
 
     public Product(String name, double price, Category category, Brand brand, Organization seller, String description) {
@@ -75,27 +76,45 @@ public class Product {
         return description;
     }
 
-    public void setCreditOptions(List<CreditOption> creditOptions) {
+    public void setCreditOptions(CreditOption[] creditOptions) {
         this.creditOptions = creditOptions;
     }
 
-    public List<CreditOption> getCreditOptions() {
+    public CreditOption[] getCreditOptions() {
         return creditOptions;
     }
 
-    public void setReviews(List<Review> reviews) {
+    public void setReviews(Review[] reviews) {
         this.reviews = reviews;
     }
 
-    public List<Review> getReviews() {
+    public void addReview(Review review) {
+        if (nextReview < reviews.length)
+            reviews[nextReview++] = review;
+        else
+            System.out.println("No space for new review");
+    }
+
+    public Review[] getReviews() {
         return reviews;
     }
 
-    public void setCharacteristics(List<Characteristic> characteristics) {
+    public void setCharacteristics(Characteristic[] characteristics) {
         this.characteristics = characteristics;
     }
 
-    public List<Characteristic> getCharacteristics() {
+    public void addCharacteristic(Characteristic characteristic) {
+        if (nextCharacteristic < characteristics.length)
+            characteristics[nextCharacteristic++] = characteristic;
+        else
+            System.out.println("No space for new characteristic");
+    }
+
+    public Characteristic[] getCharacteristics() {
         return characteristics;
+    }
+
+    public long getId() {
+        return id;
     }
 }
