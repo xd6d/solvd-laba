@@ -1,6 +1,7 @@
 package com.solvd.laba.block1.OOP.model;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class Order {
     private final User user;
@@ -20,7 +21,7 @@ public class Order {
     }
 
     public double getTotal() {
-        return Arrays.stream(bucket.getProducts()).mapToDouble(Product::getPrice).sum();
+        return Arrays.stream(bucket.getProducts()).filter(Objects::nonNull).mapToDouble(Product::getPrice).sum();
     }
 
     public User getUser() {

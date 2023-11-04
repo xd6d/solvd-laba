@@ -35,7 +35,10 @@ public class Demo {
         levisJeans.addCharacteristic(sizeM);
 
         //create order
-        Bucket myBucket = new Bucket(me, new Product[]{zaraShirt, zaraShirt, levisJeans});
+        Bucket myBucket = new Bucket(me, new Product[10]);
+        myBucket.addProduct(zaraShirt);
+        myBucket.addProduct(zaraShirt);
+        myBucket.addProduct(levisJeans);
         Order myOrder = new Order(me, myBucket, me.getContactPhone(), "Kyiv", PaymentMethod.CASH);
 
         //Get price of order and output it
