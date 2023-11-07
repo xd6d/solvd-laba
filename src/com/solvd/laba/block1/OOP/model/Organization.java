@@ -21,4 +21,8 @@ public class Organization {
         return creator;
     }
 
+    @Override
+    public String toString() {
+        return "Organization{name='" + name + "'}";
+    }
 }

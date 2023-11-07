@@ -1,5 +1,7 @@
 package com.solvd.laba.block1.OOP.model;
 
+import java.util.Arrays;
+
 public class Bucket {
     private final User user;
     private Product[] products;
@@ -32,5 +34,10 @@ public class Bucket {
     public void clearBucket() {
         products = new Product[100];
         nextProduct = 0;
+    }
+
+    @Override
+    public String toString() {
+        return "Bucket{products=" + Arrays.toString(products) + "}";
     }
 }

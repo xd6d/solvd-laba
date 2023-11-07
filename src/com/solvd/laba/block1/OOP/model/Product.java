@@ -1,5 +1,7 @@
 package com.solvd.laba.block1.OOP.model;
 
+import java.util.Objects;
+
 public class Product {
     private static long nextId = 0;
     private final long id = nextId++;
@@ -116,5 +118,24 @@ public class Product {
 
     public long getId() {
         return id;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{id=" + id + ", name='" + name + "', price=" + price +
+                ", category=" + category + ", seller=" + seller + "}";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return id == product.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

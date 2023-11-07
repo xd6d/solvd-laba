@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class Order {
+    private static long nextId = 0;
+    private final long id = nextId++;
     private final User user;
     private final Bucket bucket;
     private String contactPhone;
@@ -62,5 +64,28 @@ public class Order {
 
     public void setPaymentMethod(PaymentMethod paymentMethod) {
         this.paymentMethod = paymentMethod;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{id=" + id + ", user=" + user + ", bucket=" + bucket + ", total=" + getTotal() +
+                ", address='" + address + "', status=" + status + "}";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return id == order.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

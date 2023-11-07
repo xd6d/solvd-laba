@@ -8,6 +8,7 @@ public class Demo {
         //creating users base
         User me = new User("Artem", "Kurkin",
                 "email@example.com", "+12345678", "password");
+        System.out.println(me);
         User seller1 = new User("John", "White",
                 "john@example.com", "+11123456", "qwerty");
         User seller2 = new User("Julia", "Black",
@@ -43,6 +44,7 @@ public class Demo {
 
         //Get price of order and output it
         double total = myOrder.getTotal();
+        System.out.println(myOrder);
         System.out.println(total);
 
         //create review
