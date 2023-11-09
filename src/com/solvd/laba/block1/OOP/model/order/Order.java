@@ -2,21 +2,21 @@ package com.solvd.laba.block1.OOP.model.order;
 
 import com.solvd.laba.block1.OOP.model.enums.PaymentMethod;
 import com.solvd.laba.block1.OOP.model.enums.Status;
-import com.solvd.laba.block1.OOP.model.users.User;
+import com.solvd.laba.block1.OOP.model.users.UserAccount;
 
 import java.util.Objects;
 
 public class Order implements Countable {
     private static long nextId = 0;
     private final long id = nextId++;
-    private final User user;
+    private final UserAccount user;
     private final Bucket bucket;
     private String contactPhone;
     private String address;
     private Status status;
     private PaymentMethod paymentMethod;
 
-    public Order(User user, Bucket bucket, String contactPhone, String address, PaymentMethod paymentMethod) {
+    public Order(UserAccount user, Bucket bucket, String contactPhone, String address, PaymentMethod paymentMethod) {
         this.user = user;
         this.bucket = bucket;
         this.contactPhone = contactPhone;
@@ -30,7 +30,7 @@ public class Order implements Countable {
         return bucket.getTotal();
     }
 
-    public User getUser() {
+    public UserAccount getUser() {
         return user;
     }
 
