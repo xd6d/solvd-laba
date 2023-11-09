@@ -7,21 +7,21 @@ import com.solvd.laba.block1.OOP.model.order.Order;
 import com.solvd.laba.block1.OOP.model.product.*;
 import com.solvd.laba.block1.OOP.model.storage.Storage;
 import com.solvd.laba.block1.OOP.model.storage.StorageImpl;
-import com.solvd.laba.block1.OOP.model.users.Account;
-import com.solvd.laba.block1.OOP.model.users.User;
+import com.solvd.laba.block1.OOP.model.users.AbstractAccount;
+import com.solvd.laba.block1.OOP.model.users.UserAccount;
 
 public class Demo {
     public static void main(String[] args) {
         //creating users base
-        User me = new User("Artem", "Kurkin",
+        UserAccount me = new UserAccount("Artem", "Kurkin",
                 "email@example.com", "+12345678", "password");
         System.out.println(me);
-        User seller1 = new User("John", "White",
+        UserAccount seller1 = new UserAccount("John", "White",
                 "john@example.com", "+11123456", "qwerty");
-        User seller2 = new User("Julia", "Black",
+        UserAccount seller2 = new UserAccount("Julia", "Black",
                 "julia@example.com", "+98765432", "123456_");
-        System.out.println(Account.codePassword(me.getPassword()));
-        System.out.println(Account.codePassword(Account.codePassword(me.getPassword())));
+        System.out.println(AbstractAccount.codePassword(me.getPassword()));
+        System.out.println(AbstractAccount.codePassword(AbstractAccount.codePassword(me.getPassword())));
 
         //creating organizations
         Organization shop1 = new Organization("Best Technics", seller1);

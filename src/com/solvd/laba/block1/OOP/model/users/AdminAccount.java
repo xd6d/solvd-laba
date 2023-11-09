@@ -1,16 +1,16 @@
 package com.solvd.laba.block1.OOP.model.users;
 
-public final class Admin extends Account implements AdminsPanel {
+public final class AdminAccount extends AbstractAccount implements AdminsPanel {
 
-    public Admin(String name, String lastName, String email, String contactPhone, String password) {
+    public AdminAccount(String name, String lastName, String email, String contactPhone, String password) {
         super(name, lastName, email, contactPhone, password);
     }
 
-    public void blockUser(User user) {
+    public void blockUser(UserAccount user) {
         user.setBlocked(true);
     }
 
-    public void unblockUser(User user) {
+    public void unblockUser(UserAccount user) {
         user.setBlocked(false);
     }
 

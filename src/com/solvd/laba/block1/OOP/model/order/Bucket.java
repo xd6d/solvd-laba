@@ -2,17 +2,17 @@ package com.solvd.laba.block1.OOP.model.order;
 
 import com.solvd.laba.block1.OOP.model.Defaults;
 import com.solvd.laba.block1.OOP.model.product.Product;
-import com.solvd.laba.block1.OOP.model.users.User;
+import com.solvd.laba.block1.OOP.model.users.UserAccount;
 
 import java.util.Arrays;
 import java.util.Objects;
 
 public class Bucket implements Countable {
-    private final User user;
+    private final UserAccount user;
     private Product[] products;
     private int nextProduct = 0;
 
-    public Bucket(User user, Product[] products) {
+    public Bucket(UserAccount user, Product[] products) {
         this.user = user;
         this.products = products;
     }
@@ -25,7 +25,7 @@ public class Bucket implements Countable {
         this.products = products;
     }
 
-    public User getUser() {
+    public UserAccount getUser() {
         return user;
     }
 

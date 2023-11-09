@@ -1,12 +1,12 @@
 package com.solvd.laba.block1.OOP.model.product;
 
-import com.solvd.laba.block1.OOP.model.users.User;
+import com.solvd.laba.block1.OOP.model.users.UserAccount;
 
 public class Organization {
     private String name;
-    private User creator;
+    private UserAccount creator;
 
-    public Organization(String name, User creator) {
+    public Organization(String name, UserAccount creator) {
         this.name = name;
         this.creator = creator;
     }
@@ -19,11 +19,11 @@ public class Organization {
         this.name = name;
     }
 
-    public void setCreator(User user) {
+    public void setCreator(UserAccount user) {
         this.creator = user;
     }
 
-    public User getCreator() {
+    public UserAccount getCreator() {
         return creator;
     }
 
