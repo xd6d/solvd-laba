@@ -1,4 +1,4 @@
-package com.solvd.laba.block1.OOP.model;
+package com.solvd.laba.block1.OOP.model.enums;
 
 public enum Status {
     CREATED,

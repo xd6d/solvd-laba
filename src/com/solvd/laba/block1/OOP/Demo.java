@@ -1,7 +1,14 @@
 package com.solvd.laba.block1.OOP;
 
 
-import com.solvd.laba.block1.OOP.model.*;
+import com.solvd.laba.block1.OOP.model.enums.PaymentMethod;
+import com.solvd.laba.block1.OOP.model.order.Bucket;
+import com.solvd.laba.block1.OOP.model.order.Order;
+import com.solvd.laba.block1.OOP.model.product.*;
+import com.solvd.laba.block1.OOP.model.storage.Storage;
+import com.solvd.laba.block1.OOP.model.storage.StorageImpl;
+import com.solvd.laba.block1.OOP.model.users.Account;
+import com.solvd.laba.block1.OOP.model.users.User;
 
 public class Demo {
     public static void main(String[] args) {
@@ -13,6 +20,8 @@ public class Demo {
                 "john@example.com", "+11123456", "qwerty");
         User seller2 = new User("Julia", "Black",
                 "julia@example.com", "+98765432", "123456_");
+        System.out.println(Account.codePassword(me.getPassword()));
+        System.out.println(Account.codePassword(Account.codePassword(me.getPassword())));
 
         //creating organizations
         Organization shop1 = new Organization("Best Technics", seller1);
@@ -34,6 +43,13 @@ public class Demo {
         zaraShirt.addCharacteristic(sizeM);
         Product levisJeans = new Product("Levis jeans classic", 70, clothes, levis, shop2);
         levisJeans.addCharacteristic(sizeM);
+
+        Storage storage = new StorageImpl();
+        storage.addProducts(samsungTV, 10);
+        storage.addProducts(zaraShirt, 30);
+        storage.addProducts(zaraShirt, 10);
+        storage.addProducts(levisJeans, 30);
+        System.out.println(storage.getAmount(zaraShirt));
 
         //create order
         Bucket myBucket = new Bucket(me, new Product[10]);

@@ -1,4 +1,6 @@
-package com.solvd.laba.block1.OOP.model;
+package com.solvd.laba.block1.OOP.model.product;
+
+import com.solvd.laba.block1.OOP.model.Defaults;
 
 import java.util.Objects;
 
@@ -24,9 +26,9 @@ public class Product {
         this.brand = brand;
         this.seller = seller;
         this.description = "";
-        creditOptions = new CreditOption[20];
-        reviews = new Review[100];
-        characteristics = new Characteristic[100];
+        creditOptions = new CreditOption[Defaults.CREDITOPTIONS_CAPACITY];
+        reviews = new Review[Defaults.REVIEWS_CAPACITY];
+        characteristics = new Characteristic[Defaults.CHARACTERISTICS_CAPACITY];
     }
 
     public Product(String name, double price, Category category, Brand brand, Organization seller, String description) {

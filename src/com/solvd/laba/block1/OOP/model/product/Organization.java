@@ -1,8 +1,10 @@
-package com.solvd.laba.block1.OOP.model;
+package com.solvd.laba.block1.OOP.model.product;
+
+import com.solvd.laba.block1.OOP.model.users.User;
 
 public class Organization {
     private String name;
-    private final User creator;
+    private User creator;
 
     public Organization(String name, User creator) {
         this.name = name;
@@ -15,6 +17,10 @@ public class Organization {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setCreator(User user) {
+        this.creator = user;
     }
 
     public User getCreator() {
