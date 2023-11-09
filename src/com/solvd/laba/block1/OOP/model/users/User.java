@@ -1,4 +1,6 @@
-package com.solvd.laba.block1.OOP.model;
+package com.solvd.laba.block1.OOP.model.users;
+
+import com.solvd.laba.block1.OOP.model.order.Bucket;
 
 public class User extends Account {
     protected Bucket bucket;

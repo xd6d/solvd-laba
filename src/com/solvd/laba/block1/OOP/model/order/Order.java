@@ -1,9 +1,12 @@
-package com.solvd.laba.block1.OOP.model;
+package com.solvd.laba.block1.OOP.model.order;
 
-import java.util.Arrays;
+import com.solvd.laba.block1.OOP.model.enums.PaymentMethod;
+import com.solvd.laba.block1.OOP.model.enums.Status;
+import com.solvd.laba.block1.OOP.model.users.User;
+
 import java.util.Objects;
 
-public class Order {
+public class Order implements Countable {
     private static long nextId = 0;
     private final long id = nextId++;
     private final User user;
@@ -22,8 +25,9 @@ public class Order {
         this.paymentMethod = paymentMethod;
     }
 
+    @Override
     public double getTotal() {
-        return Arrays.stream(bucket.getProducts()).filter(Objects::nonNull).mapToDouble(Product::getPrice).sum();
+        return bucket.getTotal();
     }
 
     public User getUser() {

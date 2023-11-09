@@ -1,6 +1,6 @@
-package com.solvd.laba.block1.OOP.model;
+package com.solvd.laba.block1.OOP.model.users;
 
-public class Admin extends Account {
+public final class Admin extends Account implements AdminsPanel {
 
     public Admin(String name, String lastName, String email, String contactPhone, String password) {
         super(name, lastName, email, contactPhone, password);

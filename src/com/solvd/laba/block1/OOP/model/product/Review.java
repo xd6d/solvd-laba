@@ -1,4 +1,6 @@
-package com.solvd.laba.block1.OOP.model;
+package com.solvd.laba.block1.OOP.model.product;
+
+import com.solvd.laba.block1.OOP.model.users.User;
 
 import java.util.Date;
 

@@ -1,4 +1,4 @@
-package com.solvd.laba.block1.OOP.model;
+package com.solvd.laba.block1.OOP.model.product;
 
 public class Category {
     private String name;
