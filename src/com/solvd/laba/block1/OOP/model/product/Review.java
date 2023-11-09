@@ -1,17 +1,17 @@
 package com.solvd.laba.block1.OOP.model.product;
 
-import com.solvd.laba.block1.OOP.model.users.User;
+import com.solvd.laba.block1.OOP.model.users.UserAccount;
 
 import java.util.Date;
 
 public class Review {
     private final Product product;
-    private final User creator;
+    private final UserAccount creator;
     private final double rate;
     private String text;
     private final Date date;
 
-    public Review(Product product, User creator, double rate, String text) {
+    public Review(Product product, UserAccount creator, double rate, String text) {
         this.product = product;
         this.creator = creator;
         this.rate = rate;
@@ -20,7 +20,7 @@ public class Review {
     }
 
 
-    public User getCreator() {
+    public UserAccount getCreator() {
         return creator;
     }
 

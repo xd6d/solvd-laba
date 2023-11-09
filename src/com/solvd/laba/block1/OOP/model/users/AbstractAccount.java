@@ -3,7 +3,7 @@ package com.solvd.laba.block1.OOP.model.users;
 import java.util.Objects;
 import java.util.Random;
 
-public abstract class Account implements Person {
+public abstract class AbstractAccount implements Person {
     protected String name;
     protected String lastName;
     protected String email;
@@ -16,7 +16,7 @@ public abstract class Account implements Person {
         key = random.nextInt((int) (Math.pow(2, 16) - 1));
     }
 
-    public Account(String name, String lastName, String email, String contactPhone, String password) {
+    public AbstractAccount(String name, String lastName, String email, String contactPhone, String password) {
         this.name = name;
         this.lastName = lastName;
         this.email = email;
@@ -87,7 +87,7 @@ public abstract class Account implements Person {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Account account = (Account) o;
+        AbstractAccount account = (AbstractAccount) o;
         return Objects.equals(email, account.email);
     }
 
