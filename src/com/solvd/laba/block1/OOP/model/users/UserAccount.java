@@ -2,11 +2,11 @@ package com.solvd.laba.block1.OOP.model.users;
 
 import com.solvd.laba.block1.OOP.model.order.Bucket;
 
-public class User extends Account {
+public class UserAccount extends AbstractAccount {
     protected Bucket bucket;
     protected boolean blocked;
 
-    public User(String name, String lastName, String email, String contactPhone, String password) {
+    public UserAccount(String name, String lastName, String email, String contactPhone, String password) {
         super(name, lastName, email, contactPhone, password);
         this.blocked = false;
     }
