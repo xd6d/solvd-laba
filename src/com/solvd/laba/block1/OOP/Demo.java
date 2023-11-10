@@ -2,6 +2,7 @@ package com.solvd.laba.block1.OOP;
 
 
 import com.solvd.laba.block1.OOP.model.enums.PaymentMethod;
+import com.solvd.laba.block1.OOP.model.exceptions.NoSuchProductException;
 import com.solvd.laba.block1.OOP.model.order.Bucket;
 import com.solvd.laba.block1.OOP.model.order.Order;
 import com.solvd.laba.block1.OOP.model.product.*;
@@ -9,19 +10,25 @@ import com.solvd.laba.block1.OOP.model.storage.Storage;
 import com.solvd.laba.block1.OOP.model.storage.StorageImpl;
 import com.solvd.laba.block1.OOP.model.users.AbstractAccount;
 import com.solvd.laba.block1.OOP.model.users.UserAccount;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.util.Formatter;
 
 public class Demo {
+    private static final Logger LOGGER = LogManager.getLogger(Demo.class);
+
     public static void main(String[] args) {
         //creating users base
         UserAccount me = new UserAccount("Artem", "Kurkin",
                 "email@example.com", "+12345678", "password");
-        System.out.println(me);
+        LOGGER.info("Me: " + me);
         UserAccount seller1 = new UserAccount("John", "White",
                 "john@example.com", "+11123456", "qwerty");
         UserAccount seller2 = new UserAccount("Julia", "Black",
                 "julia@example.com", "+98765432", "123456_");
-        System.out.println(AbstractAccount.codePassword(me.getPassword()));
-        System.out.println(AbstractAccount.codePassword(AbstractAccount.codePassword(me.getPassword())));
+        LOGGER.info("Coded password: " + AbstractAccount.codePassword(me.getPassword()));
+        LOGGER.warn("Decoded password: " + AbstractAccount.codePassword(AbstractAccount.codePassword(me.getPassword())));
 
         //creating organizations
         Organization shop1 = new Organization("Best Technics", seller1);
@@ -49,10 +56,10 @@ public class Demo {
         storage.addProducts(zaraShirt, 30);
         storage.addProducts(zaraShirt, 10);
         storage.addProducts(levisJeans, 30);
-        System.out.println(storage.getAmount(zaraShirt));
+        LOGGER.info("Current Zara shirts amount at storage: " + storage.getAmount(zaraShirt));
 
         //create order
-        Bucket myBucket = new Bucket(me, new Product[10]);
+        Bucket myBucket = new Bucket(me);
         myBucket.addProduct(zaraShirt);
         myBucket.addProduct(zaraShirt);
         myBucket.addProduct(levisJeans);
@@ -60,13 +67,21 @@ public class Demo {
 
         //Get price of order and output it
         double total = myOrder.getTotal();
-        System.out.println(myOrder);
-        System.out.println(total);
+        LOGGER.info("My order: " + myOrder);
+        LOGGER.info("Total by order: " + total);
 
         //create review
         Review review1 = new Review(zaraShirt, me, 4.4, "Like it, but not perfect");
         Review review2 = new Review(levisJeans, me, 5, "I dress them everytime");
         zaraShirt.addReview(review1);
         levisJeans.addReview(review2);
+
+        try (Formatter formatter = new Formatter()) {
+            int removeAmount = 2;
+            storage.removeProducts(zaraShirt, removeAmount);
+            LOGGER.debug(formatter.format("Successfully removed %d shirts", removeAmount));
+        } catch (NoSuchProductException e) {
+            LOGGER.warn(e);
+        }
     }
 }

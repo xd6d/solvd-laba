@@ -1,10 +1,14 @@
 package com.solvd.laba.block1.OOP.model.product;
 
 import com.solvd.laba.block1.OOP.model.Defaults;
+import com.solvd.laba.block1.OOP.model.exceptions.NegativePriceException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Objects;
 
 public class Product {
+    private static final Logger LOGGER = LogManager.getLogger(Product.class);
     private static long nextId = 0;
     private final long id = nextId++;
     private String name;
@@ -20,6 +24,8 @@ public class Product {
     private int nextCharacteristic = 0;
 
     public Product(String name, double price, Category category, Brand brand, Organization seller) {
+        if (price < 0)
+            throw new NegativePriceException("Set positive price. Price: %f.2".formatted(price));
         this.name = name;
         this.price = price;
         this.category = category;
@@ -96,7 +102,7 @@ public class Product {
         if (nextReview < reviews.length)
             reviews[nextReview++] = review;
         else
-            System.out.println("No space for new review");
+            LOGGER.error("No space for new review in product: %s".formatted(name));
     }
 
     public Review[] getReviews() {
@@ -111,7 +117,7 @@ public class Product {
         if (nextCharacteristic < characteristics.length)
             characteristics[nextCharacteristic++] = characteristic;
         else
-            System.out.println("No space for new characteristic");
+            LOGGER.error("No space for new characteristic in product: %s".formatted(name));
     }
 
     public Characteristic[] getCharacteristics() {

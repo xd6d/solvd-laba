@@ -2,6 +2,7 @@ package com.solvd.laba.block1.OOP.model.order;
 
 import com.solvd.laba.block1.OOP.model.enums.PaymentMethod;
 import com.solvd.laba.block1.OOP.model.enums.Status;
+import com.solvd.laba.block1.OOP.model.exceptions.AccessDeniedException;
 import com.solvd.laba.block1.OOP.model.users.UserAccount;
 
 import java.util.Objects;
@@ -17,6 +18,9 @@ public class Order implements Countable {
     private PaymentMethod paymentMethod;
 
     public Order(UserAccount user, Bucket bucket, String contactPhone, String address, PaymentMethod paymentMethod) {
+        if (user.isBlocked())
+            throw new AccessDeniedException("User %s %s is blocked. You can not order"
+                    .formatted(user.getName(), user.getLastName()));
         this.user = user;
         this.bucket = bucket;
         this.contactPhone = contactPhone;

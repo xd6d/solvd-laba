@@ -13,9 +13,4 @@ public final class AdminAccount extends AbstractAccount implements AdminsPanel {
     public void unblockUser(UserAccount user) {
         user.setBlocked(false);
     }
-
-    @Override
-    public void greeting() {
-        System.out.println("Hello from admin " + name + " " + lastName);
-    }
 }

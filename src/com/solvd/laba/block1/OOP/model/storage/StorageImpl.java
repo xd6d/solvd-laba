@@ -1,9 +1,11 @@
 package com.solvd.laba.block1.OOP.model.storage;
 
+import com.solvd.laba.block1.OOP.model.exceptions.NoSuchProductException;
+import com.solvd.laba.block1.OOP.model.exceptions.ProductAmountException;
 import com.solvd.laba.block1.OOP.model.product.Product;
 
 public class StorageImpl implements Storage {
-    private ProductAmount[] allProducts = new ProductAmount[20];
+    private ProductAmount[] allProducts = new ProductAmount[2];
     private int nextProduct = 0;
 
     @Override
@@ -13,28 +15,40 @@ public class StorageImpl implements Storage {
 
     @Override
     public void addProducts(Product product, int amount) {
+        checkAmountPositive(amount);
         for (ProductAmount entry : allProducts) {
             if (entry != null && entry.getProduct().equals(product)) {
                 entry.setAmount(entry.getAmount() + amount);
                 return;
             }
         }
-        if (nextProduct < allProducts.length)
-            allProducts[nextProduct++] = new ProductAmount(product, amount);
-        else {
-            ProductAmount[] newContainer = new ProductAmount[nextProduct + nextProduct / 2];
+        if (nextProduct >= allProducts.length) {
+            ProductAmount[] newContainer = new ProductAmount[nextProduct + nextProduct / 2 + 1];
             System.arraycopy(allProducts, 0, newContainer, 0, allProducts.length);
-            newContainer[nextProduct++] = new ProductAmount(product, amount);
             allProducts = newContainer;
         }
+        allProducts[nextProduct++] = new ProductAmount(product, amount);
+    }
+
+    private void checkAmountPositive(int amount) {
+        if (amount < 0)
+            throw new ProductAmountException("Set positive amount. Amount: %d".formatted(amount));
     }
 
     @Override
-    public void removeProducts(Product product, int amount) {
+    public void removeProducts(Product product, int amount) throws NoSuchProductException {
+        checkAmountPositive(amount);
         for (ProductAmount entry : allProducts)
             if (entry != null && entry.getProduct().equals(product)) {
-                entry.setAmount(entry.getAmount() - amount);
+                if (entry.getAmount() >= amount ) {
+                    entry.setAmount(entry.getAmount() - amount);
+                }
+                else
+                    throw new ProductAmountException
+                            ("There are not enough products at the storage: %d.".formatted(entry.getAmount()));
+                return;
             }
+        throw new NoSuchProductException("Recording about this product is absent. Product: %s".formatted(product.getName()));
     }
 
     @Override

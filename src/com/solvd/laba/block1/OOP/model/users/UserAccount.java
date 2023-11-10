@@ -32,9 +32,4 @@ public class UserAccount extends AbstractAccount {
         return "User{name='" + name + "', lastName='" + lastName + "', email='" + email +
                 "', contactPhone='" + contactPhone + "', blocked=" + blocked + "}";
     }
-
-    @Override
-    public void greeting() {
-        System.out.println("Hi from user " + name + " " + lastName);
-    }
 }

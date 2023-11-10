@@ -68,8 +68,6 @@ public abstract class AbstractAccount implements Person {
         this.contactPhone = contactPhone;
     }
 
-    public abstract void greeting();
-
     public static String codePassword(String password) {
         StringBuilder res = new StringBuilder();
         for (char c : password.toCharArray())

@@ -1,6 +1,7 @@
 package com.solvd.laba.block1.OOP.model.order;
 
 import com.solvd.laba.block1.OOP.model.Defaults;
+import com.solvd.laba.block1.OOP.model.exceptions.BucketOverflowException;
 import com.solvd.laba.block1.OOP.model.product.Product;
 import com.solvd.laba.block1.OOP.model.users.UserAccount;
 
@@ -9,12 +10,17 @@ import java.util.Objects;
 
 public class Bucket implements Countable {
     private final UserAccount user;
-    private Product[] products;
+    private Product[] products = new Product[Defaults.BUCKET_CAPACITY];
     private int nextProduct = 0;
 
     public Bucket(UserAccount user, Product[] products) {
         this.user = user;
         this.products = products;
+        nextProduct = products.length;
+    }
+
+    public Bucket(UserAccount user) {
+        this.user = user;
     }
 
     public Product[] getProducts() {
@@ -23,6 +29,7 @@ public class Bucket implements Countable {
 
     public void setProducts(Product[] products) {
         this.products = products;
+        nextProduct = products.length;
     }
 
     public UserAccount getUser() {
@@ -33,7 +40,7 @@ public class Bucket implements Countable {
         if (nextProduct < products.length)
             products[nextProduct++] = product;
         else
-            System.out.println("No space for new product");
+            throw new BucketOverflowException("Your bucket is full. Please create a new one");
     }
 
     public final void clearBucket() {
