@@ -5,7 +5,7 @@ import com.solvd.laba.block1.OOP.model.exceptions.ProductAmountException;
 import com.solvd.laba.block1.OOP.model.product.Product;
 
 public class StorageImpl implements Storage {
-    private ProductAmount[] allProducts = new ProductAmount[2];
+    private ProductAmount[] allProducts = new ProductAmount[20];
     private int nextProduct = 0;
 
     @Override
