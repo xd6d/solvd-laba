@@ -5,6 +5,7 @@ import com.solvd.laba.block1.oop.model.enums.PaymentMethod;
 import com.solvd.laba.block1.oop.model.exceptions.NoSuchProductException;
 import com.solvd.laba.block1.oop.model.order.Bucket;
 import com.solvd.laba.block1.oop.model.order.Order;
+import com.solvd.laba.block1.oop.model.order.PromoCode;
 import com.solvd.laba.block1.oop.model.product.*;
 import com.solvd.laba.block1.oop.model.storage.Storage;
 import com.solvd.laba.block1.oop.model.storage.StorageImpl;
@@ -13,6 +14,8 @@ import com.solvd.laba.block1.oop.model.users.UserAccount;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Formatter;
 
 public class Demo {
@@ -58,16 +61,20 @@ public class Demo {
         storage.addProducts(levisJeans, 30);
         LOGGER.info("Current Zara shirts amount at storage: " + storage.getAmount(zaraShirt));
 
-        //create order
+        //create order and promo code
         Bucket myBucket = new Bucket(me);
         myBucket.addProduct(zaraShirt);
         myBucket.addProduct(zaraShirt);
         myBucket.addProduct(levisJeans);
-        Order myOrder = new Order(me, myBucket, me.getContactPhone(), "Kyiv", PaymentMethod.CASH);
+        Calendar expiresAt = Calendar.getInstance();
+        expiresAt.add(Calendar.DAY_OF_MONTH, 3); //valid for 3 days after creating
+        PromoCode promoCode80 = new PromoCode("promo-code", 0.8, expiresAt.getTime());
+        Order myOrder = new Order(me, myBucket, me.getContactPhone(), "Kyiv", PaymentMethod.CASH, promoCode80);
 
         //Get price of order and output it
         double total = myOrder.getTotal();
         LOGGER.info("My order: " + myOrder);
+        LOGGER.info("Total by bucket: " + myBucket.getTotal());
         LOGGER.info("Total by order: " + total);
 
         //create review

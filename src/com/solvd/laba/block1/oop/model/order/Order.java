@@ -16,8 +16,10 @@ public class Order implements Countable {
     private String address;
     private Status status;
     private PaymentMethod paymentMethod;
+    private PromoCode promoCode;
 
-    public Order(UserAccount user, Bucket bucket, String contactPhone, String address, PaymentMethod paymentMethod) {
+    public Order(UserAccount user, Bucket bucket, String contactPhone, String address, PaymentMethod paymentMethod,
+                 PromoCode promoCode) {
         if (user.isBlocked())
             throw new AccessDeniedException("User %s %s is blocked. You can not order"
                     .formatted(user.getName(), user.getLastName()));
@@ -27,11 +29,19 @@ public class Order implements Countable {
         this.address = address;
         this.status = Status.CREATED;
         this.paymentMethod = paymentMethod;
+        this.promoCode = promoCode;
+    }
+
+    public Order(UserAccount user, Bucket bucket, String contactPhone, String address, PaymentMethod paymentMethod) {
+        this(user, bucket, contactPhone, address, paymentMethod, null);
     }
 
     @Override
     public double getTotal() {
-        return bucket.getTotal();
+        double discount = 1;
+        if (promoCode != null && !promoCode.isExpired())
+            discount = promoCode.getPriceChange();
+        return bucket.getTotal() * discount;
     }
 
     public UserAccount getUser() {
@@ -95,5 +105,13 @@ public class Order implements Countable {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public PromoCode getPromoCode() {
+        return promoCode;
+    }
+
+    public void setPromoCode(PromoCode promoCode) {
+        this.promoCode = promoCode;
     }
 }
