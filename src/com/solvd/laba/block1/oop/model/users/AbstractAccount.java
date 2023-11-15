@@ -1,5 +1,7 @@
 package com.solvd.laba.block1.oop.model.users;
 
+import com.solvd.laba.block1.oop.model.interfaces.Person;
+
 import java.util.Objects;
 import java.util.Random;
 
@@ -9,11 +11,11 @@ public abstract class AbstractAccount implements Person {
     protected String email;
     protected String contactPhone;
     private String password;
-    private static final int key;
+    private static final int KEY;
 
     static {
         Random random = new Random();
-        key = random.nextInt((int) (Math.pow(2, 16) - 1));
+        KEY = random.nextInt((int) (Math.pow(2, 16) - 1));
     }
 
     public AbstractAccount(String name, String lastName, String email, String contactPhone, String password) {
@@ -71,7 +73,7 @@ public abstract class AbstractAccount implements Person {
     public static String codePassword(String password) {
         StringBuilder res = new StringBuilder();
         for (char c : password.toCharArray())
-            res.append((char) (c ^ key));
+            res.append((char) (c ^ KEY));
         return res.toString();
     }
 

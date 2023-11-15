@@ -2,6 +2,7 @@ package com.solvd.laba.block1.oop.model.storage;
 
 import com.solvd.laba.block1.oop.model.exceptions.NoSuchProductException;
 import com.solvd.laba.block1.oop.model.exceptions.ProductAmountException;
+import com.solvd.laba.block1.oop.model.interfaces.Storage;
 import com.solvd.laba.block1.oop.model.product.Product;
 
 public class StorageImpl implements Storage {
