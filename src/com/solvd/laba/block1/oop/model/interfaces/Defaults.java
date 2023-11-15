@@ -1,4 +1,4 @@
-package com.solvd.laba.block1.oop.model;
+package com.solvd.laba.block1.oop.model.interfaces;
 
 public interface Defaults {
     int BUCKET_CAPACITY = 10;

@@ -1,4 +1,4 @@
-package com.solvd.laba.block1.oop.model.users;
+package com.solvd.laba.block1.oop.model.interfaces;
 
 public interface Person {
     void setName(String name);

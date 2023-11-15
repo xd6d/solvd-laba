@@ -1,7 +1,8 @@
-package com.solvd.laba.block1.oop.model.storage;
+package com.solvd.laba.block1.oop.model.interfaces;
 
 import com.solvd.laba.block1.oop.model.exceptions.NoSuchProductException;
 import com.solvd.laba.block1.oop.model.product.Product;
+import com.solvd.laba.block1.oop.model.storage.ProductAmount;
 
 public interface Storage {
     ProductAmount[] getAllProducts();

@@ -1,6 +1,6 @@
 package com.solvd.laba.block1.oop.model.product;
 
-import com.solvd.laba.block1.oop.model.Defaults;
+import com.solvd.laba.block1.oop.model.interfaces.Defaults;
 import com.solvd.laba.block1.oop.model.exceptions.NegativePriceException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

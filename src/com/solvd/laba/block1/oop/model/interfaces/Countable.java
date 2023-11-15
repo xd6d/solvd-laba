@@ -1,4 +1,4 @@
-package com.solvd.laba.block1.oop.model.order;
+package com.solvd.laba.block1.oop.model.interfaces;
 
 @FunctionalInterface
 public interface Countable {

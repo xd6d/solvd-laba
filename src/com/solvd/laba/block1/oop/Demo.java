@@ -3,11 +3,12 @@ package com.solvd.laba.block1.oop;
 
 import com.solvd.laba.block1.oop.model.enums.PaymentMethod;
 import com.solvd.laba.block1.oop.model.exceptions.NoSuchProductException;
+import com.solvd.laba.block1.oop.model.exceptions.RatingBoundsException;
 import com.solvd.laba.block1.oop.model.order.Bucket;
 import com.solvd.laba.block1.oop.model.order.Order;
 import com.solvd.laba.block1.oop.model.order.PromoCode;
 import com.solvd.laba.block1.oop.model.product.*;
-import com.solvd.laba.block1.oop.model.storage.Storage;
+import com.solvd.laba.block1.oop.model.interfaces.Storage;
 import com.solvd.laba.block1.oop.model.storage.StorageImpl;
 import com.solvd.laba.block1.oop.model.users.AbstractAccount;
 import com.solvd.laba.block1.oop.model.users.UserAccount;
@@ -15,7 +16,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Formatter;
 
 public class Demo {
@@ -80,6 +80,11 @@ public class Demo {
         //create review
         Review review1 = new Review(zaraShirt, me, 4.4, "Like it, but not perfect");
         Review review2 = new Review(levisJeans, me, 5, "I dress them everytime");
+        try {
+            levisJeans.addReview(new Review(levisJeans, me, -5, "Awful"));
+        } catch (RatingBoundsException e) {
+            LOGGER.warn("Resolved exception: %s".formatted(e.getMessage()));
+        }
         zaraShirt.addReview(review1);
         levisJeans.addReview(review2);
 
