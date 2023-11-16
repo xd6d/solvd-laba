@@ -1,12 +1,11 @@
 package com.solvd.laba.block1.oop.model.interfaces;
 
-import com.solvd.laba.block1.oop.model.exceptions.NoSuchProductException;
-import com.solvd.laba.block1.oop.model.product.Product;
-import com.solvd.laba.block1.oop.model.storage.ProductAmount;
+import com.solvd.laba.block1.oop.model.exceptions.NoSuchItemException;
 
-public interface Storage {
-    ProductAmount[] getAllProducts();
-    void addProducts(Product product, int amount);
-    void removeProducts(Product product, int amount) throws NoSuchProductException;
-    int getAmount(Product product);
+public interface Storage<T> {
+    void add(T item, int amount);
+
+    void remove(T item, int amount) throws NoSuchItemException;
+
+    int getAmount(T item);
 }

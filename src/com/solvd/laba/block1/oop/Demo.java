@@ -2,14 +2,14 @@ package com.solvd.laba.block1.oop;
 
 
 import com.solvd.laba.block1.oop.model.enums.PaymentMethod;
-import com.solvd.laba.block1.oop.model.exceptions.NoSuchProductException;
+import com.solvd.laba.block1.oop.model.exceptions.NoSuchItemException;
 import com.solvd.laba.block1.oop.model.exceptions.RatingBoundsException;
 import com.solvd.laba.block1.oop.model.order.Bucket;
 import com.solvd.laba.block1.oop.model.order.Order;
 import com.solvd.laba.block1.oop.model.order.PromoCode;
 import com.solvd.laba.block1.oop.model.product.*;
 import com.solvd.laba.block1.oop.model.interfaces.Storage;
-import com.solvd.laba.block1.oop.model.storage.StorageImpl;
+import com.solvd.laba.block1.oop.model.storage.ProductStorage;
 import com.solvd.laba.block1.oop.model.users.AbstractAccount;
 import com.solvd.laba.block1.oop.model.users.UserAccount;
 import org.apache.logging.log4j.LogManager;
@@ -49,17 +49,16 @@ public class Demo {
         //create products
         Product samsungTV = new Product("Samsung SmartTV 1", 1000, tv, samsung, shop1);
         Product zaraShirt = new Product("Zara shirt black", 50, clothes, zara, shop2);
-        Characteristic sizeM = new Characteristic("Size", "M");
-        zaraShirt.addCharacteristic(sizeM);
+        zaraShirt.addCharacteristic("Size", "M");
         Product levisJeans = new Product("Levis jeans classic", 70, clothes, levis, shop2);
-        levisJeans.addCharacteristic(sizeM);
+        levisJeans.addCharacteristic("Size", "M");
 
-        Storage storage = new StorageImpl();
-        storage.addProducts(samsungTV, 10);
-        storage.addProducts(zaraShirt, 30);
-        storage.addProducts(zaraShirt, 10);
-        storage.addProducts(levisJeans, 30);
-        LOGGER.info("Current Zara shirts amount at storage: " + storage.getAmount(zaraShirt));
+        Storage<Product> productStorage = new ProductStorage();
+        productStorage.add(samsungTV, 10);
+        productStorage.add(zaraShirt, 30);
+        productStorage.add(zaraShirt, 10);
+        productStorage.add(levisJeans, 30);
+        LOGGER.info("Current Zara shirts amount at storage: " + productStorage.getAmount(zaraShirt));
 
         //create order and promo code
         Bucket myBucket = new Bucket(me);
@@ -90,9 +89,9 @@ public class Demo {
 
         try (Formatter formatter = new Formatter()) {
             int removeAmount = 2;
-            storage.removeProducts(zaraShirt, removeAmount);
-            LOGGER.debug(formatter.format("Successfully removed %d shirts", removeAmount));
-        } catch (NoSuchProductException e) {
+            productStorage.remove(zaraShirt, removeAmount);
+            LOGGER.info(formatter.format("Successfully removed %d shirts", removeAmount));
+        } catch (NoSuchItemException e) {
             LOGGER.warn(e);
         }
     }

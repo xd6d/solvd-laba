@@ -6,14 +6,16 @@ import com.solvd.laba.block1.oop.model.exceptions.AccessDeniedException;
 import com.solvd.laba.block1.oop.model.interfaces.Countable;
 import com.solvd.laba.block1.oop.model.users.UserAccount;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 public class Order implements Countable {
     private static long nextId = 0;
     private final long id = nextId++;
     private final UserAccount user;
     private final Bucket bucket;
-    private String contactPhone;
+    private Set<String> contactPhones;
     private String address;
     private Status status;
     private PaymentMethod paymentMethod;
@@ -21,20 +23,26 @@ public class Order implements Countable {
 
     public Order(UserAccount user, Bucket bucket, String contactPhone, String address, PaymentMethod paymentMethod,
                  PromoCode promoCode) {
+        this(user, bucket, new HashSet<>(), address, paymentMethod, promoCode);
+        contactPhones.add(contactPhone);
+    }
+
+    public Order(UserAccount user, Bucket bucket, String contactPhone, String address, PaymentMethod paymentMethod) {
+        this(user, bucket, contactPhone, address, paymentMethod, null);
+    }
+
+    public Order(UserAccount user, Bucket bucket, Set<String> contactPhones, String address, PaymentMethod paymentMethod,
+                 PromoCode promoCode) {
         if (user.isBlocked())
             throw new AccessDeniedException("User %s %s is blocked. You can not order"
                     .formatted(user.getName(), user.getLastName()));
         this.user = user;
         this.bucket = bucket;
-        this.contactPhone = contactPhone;
+        this.contactPhones = contactPhones;
         this.address = address;
         this.status = Status.CREATED;
         this.paymentMethod = paymentMethod;
         this.promoCode = promoCode;
-    }
-
-    public Order(UserAccount user, Bucket bucket, String contactPhone, String address, PaymentMethod paymentMethod) {
-        this(user, bucket, contactPhone, address, paymentMethod, null);
     }
 
     @Override
@@ -53,12 +61,12 @@ public class Order implements Countable {
         return bucket;
     }
 
-    public String getContactPhone() {
-        return contactPhone;
+    public Set<String> getContactPhone() {
+        return contactPhones;
     }
 
-    public void setContactPhone(String contactPhone) {
-        this.contactPhone = contactPhone;
+    public void setContactPhones(Set<String> contactPhones) {
+        this.contactPhones = contactPhones;
     }
 
     public String getAddress() {

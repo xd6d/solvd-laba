@@ -5,10 +5,9 @@ import com.solvd.laba.block1.oop.model.exceptions.NegativePriceException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Objects;
+import java.util.*;
 
 public class Product {
-    private static final Logger LOGGER = LogManager.getLogger(Product.class);
     private static long nextId = 0;
     private final long id = nextId++;
     private String name;
@@ -17,11 +16,9 @@ public class Product {
     private Brand brand;
     private final Organization seller;
     private String description;
-    private CreditOption[] creditOptions;
-    private Review[] reviews;
-    private int nextReview = 0;
-    private Characteristic[] characteristics;
-    private int nextCharacteristic = 0;
+    private List<CreditOption> creditOptions;
+    private List<Review> reviews;
+    private Map<String, String> characteristics;
 
     public Product(String name, double price, Category category, Brand brand, Organization seller) {
         if (price < 0)
@@ -32,9 +29,9 @@ public class Product {
         this.brand = brand;
         this.seller = seller;
         this.description = "";
-        creditOptions = new CreditOption[Defaults.CREDITOPTIONS_CAPACITY];
-        reviews = new Review[Defaults.REVIEWS_CAPACITY];
-        characteristics = new Characteristic[Defaults.CHARACTERISTICS_CAPACITY];
+        creditOptions = new ArrayList<>(Defaults.CREDITOPTIONS_CAPACITY);
+        reviews = new LinkedList<>();
+        characteristics = new HashMap<>();
     }
 
     public Product(String name, double price, Category category, Brand brand, Organization seller, String description) {
@@ -86,41 +83,35 @@ public class Product {
         return description;
     }
 
-    public void setCreditOptions(CreditOption[] creditOptions) {
+    public void setCreditOptions(List<CreditOption> creditOptions) {
         this.creditOptions = creditOptions;
     }
 
-    public CreditOption[] getCreditOptions() {
+    public List<CreditOption> getCreditOptions() {
         return creditOptions;
     }
 
-    public void setReviews(Review[] reviews) {
+    public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
     }
 
     public void addReview(Review review) {
-        if (nextReview < reviews.length)
-            reviews[nextReview++] = review;
-        else
-            LOGGER.error("No space for new review in product: %s".formatted(name));
+        reviews.add(review);
     }
 
-    public Review[] getReviews() {
+    public List<Review> getReviews() {
         return reviews;
     }
 
-    public void setCharacteristics(Characteristic[] characteristics) {
+    public void setCharacteristics(Map<String, String> characteristics) {
         this.characteristics = characteristics;
     }
 
-    public void addCharacteristic(Characteristic characteristic) {
-        if (nextCharacteristic < characteristics.length)
-            characteristics[nextCharacteristic++] = characteristic;
-        else
-            LOGGER.error("No space for new characteristic in product: %s".formatted(name));
+    public void addCharacteristic(String name, String value) {
+        characteristics.put(name, value);
     }
 
-    public Characteristic[] getCharacteristics() {
+    public Map<String, String> getCharacteristics() {
         return characteristics;
     }
 
