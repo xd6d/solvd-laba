@@ -30,6 +30,7 @@ public class Bucket implements Countable {
 
     public void setProducts(List<Product> products) {
         this.products = products;
+        nextProduct = products.length;
     }
 
     public UserAccount getUser() {

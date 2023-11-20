@@ -9,10 +9,10 @@ public class Review {
     private final Product product;
     private final UserAccount creator;
     private final double rate;
-    private String text;
     private final Date date;
+    private String text;
 
-    public Review(Product product, UserAccount creator, double rate, String text) {
+    public Review(Product product, UserAccount creator, double rate, String text) throws RatingBoundsException {
         if (rate < 1 || rate > 5)
             throw new RatingBoundsException("Set rating between 1 and 5");
         this.product = product;

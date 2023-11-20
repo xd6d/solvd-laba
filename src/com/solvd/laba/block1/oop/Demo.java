@@ -2,16 +2,18 @@ package com.solvd.laba.block1.oop;
 
 
 import com.solvd.laba.block1.oop.model.enums.PaymentMethod;
-import com.solvd.laba.block1.oop.model.exceptions.NoSuchItemException;
-import com.solvd.laba.block1.oop.model.exceptions.RatingBoundsException;
+import com.solvd.laba.block1.oop.model.exceptions.*;
+import com.solvd.laba.block1.oop.model.interfaces.Defaults;
+import com.solvd.laba.block1.oop.model.interfaces.Storage;
 import com.solvd.laba.block1.oop.model.order.Bucket;
 import com.solvd.laba.block1.oop.model.order.Order;
 import com.solvd.laba.block1.oop.model.order.PromoCode;
 import com.solvd.laba.block1.oop.model.product.*;
-import com.solvd.laba.block1.oop.model.interfaces.Storage;
-import com.solvd.laba.block1.oop.model.storage.ProductStorage;
+import com.solvd.laba.block1.oop.model.storage.StorageImpl;
 import com.solvd.laba.block1.oop.model.users.AbstractAccount;
 import com.solvd.laba.block1.oop.model.users.UserAccount;
+import com.solvd.laba.block1.oop.services.BucketService;
+import com.solvd.laba.block1.oop.services.ProductStorageService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -47,52 +49,87 @@ public class Demo {
         Brand levis = new Brand("Levis");
 
         //create products
-        Product samsungTV = new Product("Samsung SmartTV 1", 1000, tv, samsung, shop1);
-        Product zaraShirt = new Product("Zara shirt black", 50, clothes, zara, shop2);
-        zaraShirt.addCharacteristic("Size", "M");
-        Product levisJeans = new Product("Levis jeans classic", 70, clothes, levis, shop2);
-        levisJeans.addCharacteristic("Size", "M");
+        Product samsungTV = null;
+        try {
+            samsungTV = new Product("Samsung SmartTV 1", 1000, tv, samsung, shop1);
+        } catch (NegativePriceException e) {
+            LOGGER.warn(Defaults.EXCEPTION_MESSAGE.formatted(e));
+        }
+        Characteristic sizeM = new Characteristic("Size", "M");
+        Product zaraShirt = null;
+        try {
+            zaraShirt = new Product("Zara shirt black", 50, clothes, zara, shop2);
+            zaraShirt.addCharacteristic(sizeM);
+        } catch (NegativePriceException e) {
+            LOGGER.warn(Defaults.EXCEPTION_MESSAGE.formatted(e));
+        }
+        Product levisJeans = null;
+        try {
+            levisJeans = new Product("Levis jeans classic", 70, clothes, levis, shop2);
+            levisJeans.addCharacteristic(sizeM);
+        } catch (NegativePriceException e) {
+            LOGGER.warn(Defaults.EXCEPTION_MESSAGE.formatted(e));
+        }
 
-        Storage<Product> productStorage = new ProductStorage();
-        productStorage.add(samsungTV, 10);
-        productStorage.add(zaraShirt, 30);
-        productStorage.add(zaraShirt, 10);
-        productStorage.add(levisJeans, 30);
-        LOGGER.info("Current Zara shirts amount at storage: " + productStorage.getAmount(zaraShirt));
+
+        Storage storage = new StorageImpl();
+        ProductStorageService storageService = new ProductStorageService();
+        storageService.addProducts(storage, samsungTV, 10);
+        storageService.addProducts(storage, zaraShirt, 30);
+        storageService.addProducts(storage, zaraShirt, 10);
+        storageService.addProducts(storage, levisJeans, 30);
+        LOGGER.info("Current Zara shirts amount at storage: " + storage.getAmount(zaraShirt));
 
         //create order and promo code
         Bucket myBucket = new Bucket(me);
-        myBucket.addProduct(zaraShirt);
-        myBucket.addProduct(zaraShirt);
-        myBucket.addProduct(levisJeans);
+        BucketService bucketService = new BucketService();
+        bucketService.addProduct(myBucket, zaraShirt);
+        bucketService.addProduct(myBucket, zaraShirt);
+        bucketService.addProduct(myBucket, levisJeans);
         Calendar expiresAt = Calendar.getInstance();
         expiresAt.add(Calendar.DAY_OF_MONTH, 3); //valid for 3 days after creating
         PromoCode promoCode80 = new PromoCode("promo-code", 0.8, expiresAt.getTime());
-        Order myOrder = new Order(me, myBucket, me.getContactPhone(), "Kyiv", PaymentMethod.CASH, promoCode80);
+        try {
+            Order myOrder = new Order(me, myBucket, me.getContactPhone(), "Kyiv", PaymentMethod.CASH, promoCode80);
 
-        //Get price of order and output it
-        double total = myOrder.getTotal();
-        LOGGER.info("My order: " + myOrder);
-        LOGGER.info("Total by bucket: " + myBucket.getTotal());
-        LOGGER.info("Total by order: " + total);
+            //Get price of order and output it
+            double total = myOrder.getTotal();
+            LOGGER.info("My order: " + myOrder);
+            LOGGER.info("Total by bucket: " + myBucket.getTotal());
+            LOGGER.info("Total by order: " + total);
+        } catch (AccessDeniedException e) {
+            LOGGER.warn(Defaults.EXCEPTION_MESSAGE.formatted(e));
+        }
 
         //create review
-        Review review1 = new Review(zaraShirt, me, 4.4, "Like it, but not perfect");
-        Review review2 = new Review(levisJeans, me, 5, "I dress them everytime");
         try {
-            levisJeans.addReview(new Review(levisJeans, me, -5, "Awful"));
-        } catch (RatingBoundsException e) {
-            LOGGER.warn("Resolved exception: %s".formatted(e.getMessage()));
+            if (levisJeans != null) {
+                levisJeans.addReview(new Review(levisJeans, me, -5, "Awful"));
+            }
+        } catch (RatingBoundsException | NullPointerException e) {
+            LOGGER.warn(Defaults.EXCEPTION_MESSAGE.formatted(e));
         }
-        zaraShirt.addReview(review1);
-        levisJeans.addReview(review2);
+        try {
+            if (zaraShirt != null) {
+                zaraShirt.addReview(new Review(zaraShirt, me, 4.4, "Like it, but not perfect"));
+            }
+        } catch (RatingBoundsException e) {
+            LOGGER.warn(Defaults.EXCEPTION_MESSAGE.formatted(e));
+        }
+        try {
+            if (levisJeans != null) {
+                levisJeans.addReview(new Review(levisJeans, me, 5, "I dress them everytime"));
+            }
+        } catch (RatingBoundsException e) {
+            LOGGER.warn(Defaults.EXCEPTION_MESSAGE.formatted(e));
+        }
 
         try (Formatter formatter = new Formatter()) {
             int removeAmount = 2;
-            productStorage.remove(zaraShirt, removeAmount);
-            LOGGER.info(formatter.format("Successfully removed %d shirts", removeAmount));
-        } catch (NoSuchItemException e) {
-            LOGGER.warn(e);
+            storage.removeProducts(zaraShirt, removeAmount);
+            LOGGER.debug(formatter.format("Successfully removed %d shirts", removeAmount));
+        } catch (NoSuchProductException | ProductAmountException e) {
+            LOGGER.warn(Defaults.EXCEPTION_MESSAGE.formatted(e));
         }
     }
 }
