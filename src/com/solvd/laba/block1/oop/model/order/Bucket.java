@@ -1,8 +1,8 @@
 package com.solvd.laba.block1.oop.model.order;
 
+import com.solvd.laba.block1.oop.model.exceptions.BucketOverflowException;
 import com.solvd.laba.block1.oop.model.interfaces.Countable;
 import com.solvd.laba.block1.oop.model.interfaces.Defaults;
-import com.solvd.laba.block1.oop.model.exceptions.BucketOverflowException;
 import com.solvd.laba.block1.oop.model.product.Product;
 import com.solvd.laba.block1.oop.model.users.UserAccount;
 
@@ -37,7 +37,7 @@ public class Bucket implements Countable {
         return user;
     }
 
-    public void addProduct(Product product) {
+    public void addProduct(Product product) throws BucketOverflowException {
         if (nextProduct < products.length)
             products[nextProduct++] = product;
         else

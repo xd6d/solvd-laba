@@ -15,7 +15,7 @@ public class StorageImpl implements Storage {
     }
 
     @Override
-    public void addProducts(Product product, int amount) {
+    public void addProducts(Product product, int amount) throws ProductAmountException {
         checkAmountPositive(amount);
         for (ProductAmount entry : allProducts) {
             if (entry != null && entry.getProduct().equals(product)) {
@@ -31,20 +31,19 @@ public class StorageImpl implements Storage {
         allProducts[nextProduct++] = new ProductAmount(product, amount);
     }
 
-    private void checkAmountPositive(int amount) {
+    private void checkAmountPositive(int amount) throws ProductAmountException {
         if (amount < 0)
             throw new ProductAmountException("Set positive amount. Amount: %d".formatted(amount));
     }
 
     @Override
-    public void removeProducts(Product product, int amount) throws NoSuchProductException {
+    public void removeProducts(Product product, int amount) throws NoSuchProductException, ProductAmountException {
         checkAmountPositive(amount);
         for (ProductAmount entry : allProducts)
             if (entry != null && entry.getProduct().equals(product)) {
-                if (entry.getAmount() >= amount ) {
+                if (entry.getAmount() >= amount) {
                     entry.setAmount(entry.getAmount() - amount);
-                }
-                else
+                } else
                     throw new ProductAmountException
                             ("There are not enough products at the storage: %d.".formatted(entry.getAmount()));
                 return;
