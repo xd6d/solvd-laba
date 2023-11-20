@@ -20,7 +20,7 @@ public class Order implements Countable {
     private PromoCode promoCode;
 
     public Order(UserAccount user, Bucket bucket, String contactPhone, String address, PaymentMethod paymentMethod,
-                 PromoCode promoCode) {
+                 PromoCode promoCode) throws AccessDeniedException {
         if (user.isBlocked())
             throw new AccessDeniedException("User %s %s is blocked. You can not order"
                     .formatted(user.getName(), user.getLastName()));
@@ -33,7 +33,8 @@ public class Order implements Countable {
         this.promoCode = promoCode;
     }
 
-    public Order(UserAccount user, Bucket bucket, String contactPhone, String address, PaymentMethod paymentMethod) {
+    public Order(UserAccount user, Bucket bucket, String contactPhone, String address, PaymentMethod paymentMethod)
+            throws AccessDeniedException {
         this(user, bucket, contactPhone, address, paymentMethod, null);
     }
 

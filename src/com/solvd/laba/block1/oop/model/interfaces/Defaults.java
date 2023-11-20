@@ -5,4 +5,6 @@ public interface Defaults {
     int CREDITOPTIONS_CAPACITY = 5;
     int REVIEWS_CAPACITY = 20;
     int CHARACTERISTICS_CAPACITY = 15;
+
+    String EXCEPTION_MESSAGE = "Resolved %s";
 }
