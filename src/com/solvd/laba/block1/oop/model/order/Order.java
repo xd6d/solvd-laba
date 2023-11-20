@@ -1,8 +1,8 @@
 package com.solvd.laba.block1.oop.model.order;
 
+import com.solvd.laba.block1.oop.exceptions.AccessDeniedException;
 import com.solvd.laba.block1.oop.model.enums.PaymentMethod;
 import com.solvd.laba.block1.oop.model.enums.Status;
-import com.solvd.laba.block1.oop.model.exceptions.AccessDeniedException;
 import com.solvd.laba.block1.oop.model.interfaces.Countable;
 import com.solvd.laba.block1.oop.model.users.UserAccount;
 
@@ -22,17 +22,18 @@ public class Order implements Countable {
     private PromoCode promoCode;
 
     public Order(UserAccount user, Bucket bucket, String contactPhone, String address, PaymentMethod paymentMethod,
-                 PromoCode promoCode) {
+                 PromoCode promoCode) throws AccessDeniedException {
         this(user, bucket, new HashSet<>(), address, paymentMethod, promoCode);
         contactPhones.add(contactPhone);
     }
 
-    public Order(UserAccount user, Bucket bucket, String contactPhone, String address, PaymentMethod paymentMethod) {
+    public Order(UserAccount user, Bucket bucket, String contactPhone, String address, PaymentMethod paymentMethod)
+            throws AccessDeniedException {
         this(user, bucket, contactPhone, address, paymentMethod, null);
     }
 
     public Order(UserAccount user, Bucket bucket, Set<String> contactPhones, String address, PaymentMethod paymentMethod,
-                 PromoCode promoCode) {
+                 PromoCode promoCode) throws AccessDeniedException {
         if (user.isBlocked())
             throw new AccessDeniedException("User %s %s is blocked. You can not order"
                     .formatted(user.getName(), user.getLastName()));

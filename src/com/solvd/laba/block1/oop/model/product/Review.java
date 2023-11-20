@@ -1,6 +1,6 @@
 package com.solvd.laba.block1.oop.model.product;
 
-import com.solvd.laba.block1.oop.model.exceptions.RatingBoundsException;
+import com.solvd.laba.block1.oop.exceptions.RatingBoundsException;
 import com.solvd.laba.block1.oop.model.users.UserAccount;
 
 import java.util.Date;

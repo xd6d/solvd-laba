@@ -1,7 +1,7 @@
 package com.solvd.laba.block1.oop.model.storage;
 
-import com.solvd.laba.block1.oop.model.exceptions.NoSuchItemException;
-import com.solvd.laba.block1.oop.model.exceptions.ProductAmountException;
+import com.solvd.laba.block1.oop.exceptions.AmountException;
+import com.solvd.laba.block1.oop.exceptions.NoSuchItemException;
 import com.solvd.laba.block1.oop.model.interfaces.Storage;
 import com.solvd.laba.block1.oop.model.product.Product;
 
@@ -10,7 +10,7 @@ public class ProductStorage implements Storage<Product> {
     private Node last;
 
     @Override
-    public void add(Product product, int amount) {
+    public void add(Product product, int amount) throws AmountException {
         checkAmountPositive(amount);
         Node current = first;
         while (current != null) {
@@ -29,13 +29,13 @@ public class ProductStorage implements Storage<Product> {
             l.next = newNode;
     }
 
-    private void checkAmountPositive(int amount) {
+    private void checkAmountPositive(int amount) throws AmountException {
         if (amount < 0)
-            throw new ProductAmountException("Set positive amount. Amount: %d".formatted(amount));
+            throw new AmountException("Set positive amount. Amount: %d".formatted(amount));
     }
 
     @Override
-    public void remove(Product product, int amount) throws NoSuchItemException {
+    public void remove(Product product, int amount) throws NoSuchItemException, AmountException {
         checkAmountPositive(amount);
         Node current = first;
         while (current != null) {
@@ -43,7 +43,7 @@ public class ProductStorage implements Storage<Product> {
                 if (current.amount >= amount) {
                     current.amount -= amount;
                 } else
-                    throw new ProductAmountException
+                    throw new AmountException
                             ("There are not enough products at the storage: %d.".formatted(current.amount));
                 return;
             }

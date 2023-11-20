@@ -1,9 +1,7 @@
 package com.solvd.laba.block1.oop.model.product;
 
-import com.solvd.laba.block1.oop.model.exceptions.NegativePriceException;
+import com.solvd.laba.block1.oop.exceptions.NegativePriceException;
 import com.solvd.laba.block1.oop.model.interfaces.Defaults;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 
@@ -85,10 +83,6 @@ public class Product {
         this.description = description;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
     public void setCreditOptions(List<CreditOption> creditOptions) {
         this.creditOptions = creditOptions;
     }
@@ -119,10 +113,6 @@ public class Product {
 
     public Map<String, String> getCharacteristics() {
         return characteristics;
-    }
-
-    public void setCharacteristics(Characteristic[] characteristics) {
-        this.characteristics = characteristics;
     }
 
     public long getId() {
