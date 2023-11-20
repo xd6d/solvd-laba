@@ -1,18 +1,17 @@
 package com.solvd.laba.block1.oop;
 
 
+import com.solvd.laba.block1.oop.exceptions.*;
 import com.solvd.laba.block1.oop.model.enums.PaymentMethod;
-import com.solvd.laba.block1.oop.model.exceptions.*;
 import com.solvd.laba.block1.oop.model.interfaces.Defaults;
 import com.solvd.laba.block1.oop.model.interfaces.Storage;
 import com.solvd.laba.block1.oop.model.order.Bucket;
 import com.solvd.laba.block1.oop.model.order.Order;
 import com.solvd.laba.block1.oop.model.order.PromoCode;
 import com.solvd.laba.block1.oop.model.product.*;
-import com.solvd.laba.block1.oop.model.storage.StorageImpl;
+import com.solvd.laba.block1.oop.model.storage.ProductStorage;
 import com.solvd.laba.block1.oop.model.users.AbstractAccount;
 import com.solvd.laba.block1.oop.model.users.UserAccount;
-import com.solvd.laba.block1.oop.services.BucketService;
 import com.solvd.laba.block1.oop.services.ProductStorageService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -55,24 +54,23 @@ public class Demo {
         } catch (NegativePriceException e) {
             LOGGER.warn(Defaults.EXCEPTION_MESSAGE.formatted(e));
         }
-        Characteristic sizeM = new Characteristic("Size", "M");
         Product zaraShirt = null;
         try {
             zaraShirt = new Product("Zara shirt black", 50, clothes, zara, shop2);
-            zaraShirt.addCharacteristic(sizeM);
+            zaraShirt.addCharacteristic("Size", "M");
         } catch (NegativePriceException e) {
             LOGGER.warn(Defaults.EXCEPTION_MESSAGE.formatted(e));
         }
         Product levisJeans = null;
         try {
             levisJeans = new Product("Levis jeans classic", 70, clothes, levis, shop2);
-            levisJeans.addCharacteristic(sizeM);
+            levisJeans.addCharacteristic("Size", "M");
         } catch (NegativePriceException e) {
             LOGGER.warn(Defaults.EXCEPTION_MESSAGE.formatted(e));
         }
 
 
-        Storage storage = new StorageImpl();
+        Storage<Product> storage = new ProductStorage();
         ProductStorageService storageService = new ProductStorageService();
         storageService.addProducts(storage, samsungTV, 10);
         storageService.addProducts(storage, zaraShirt, 30);
@@ -82,10 +80,9 @@ public class Demo {
 
         //create order and promo code
         Bucket myBucket = new Bucket(me);
-        BucketService bucketService = new BucketService();
-        bucketService.addProduct(myBucket, zaraShirt);
-        bucketService.addProduct(myBucket, zaraShirt);
-        bucketService.addProduct(myBucket, levisJeans);
+        myBucket.addProduct(zaraShirt);
+        myBucket.addProduct(zaraShirt);
+        myBucket.addProduct(levisJeans);
         Calendar expiresAt = Calendar.getInstance();
         expiresAt.add(Calendar.DAY_OF_MONTH, 3); //valid for 3 days after creating
         PromoCode promoCode80 = new PromoCode("promo-code", 0.8, expiresAt.getTime());
@@ -126,9 +123,9 @@ public class Demo {
 
         try (Formatter formatter = new Formatter()) {
             int removeAmount = 2;
-            storage.removeProducts(zaraShirt, removeAmount);
+            storage.remove(zaraShirt, removeAmount);
             LOGGER.debug(formatter.format("Successfully removed %d shirts", removeAmount));
-        } catch (NoSuchProductException | ProductAmountException e) {
+        } catch (NoSuchItemException | AmountException e) {
             LOGGER.warn(Defaults.EXCEPTION_MESSAGE.formatted(e));
         }
     }
