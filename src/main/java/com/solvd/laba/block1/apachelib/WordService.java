@@ -25,4 +25,12 @@ public class WordService {
         }
         return 0;
     }
+
+    public void writeToFile(String text, File file) {
+        try {
+            FileUtils.write(file, text, Charset.defaultCharset());
+        } catch (IOException e) {
+            LOGGER.warn(EXCEPTION_MESSAGE.formatted(e));
+        }
+    }
 }
