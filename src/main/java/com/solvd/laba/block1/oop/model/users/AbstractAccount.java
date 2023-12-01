@@ -6,11 +6,6 @@ import java.util.Objects;
 import java.util.Random;
 
 public abstract class AbstractAccount implements Person {
-    protected String name;
-    protected String lastName;
-    protected String email;
-    protected String contactPhone;
-    private String password;
     private static final int KEY;
 
     static {
@@ -18,12 +13,25 @@ public abstract class AbstractAccount implements Person {
         KEY = random.nextInt((int) (Math.pow(2, 16) - 1));
     }
 
+    protected String name;
+    protected String lastName;
+    protected String email;
+    protected String contactPhone;
+    private String password;
+
     public AbstractAccount(String name, String lastName, String email, String contactPhone, String password) {
         this.name = name;
         this.lastName = lastName;
         this.email = email;
         this.contactPhone = contactPhone;
         this.password = password;
+    }
+
+    public static String codePassword(String password) {
+        StringBuilder res = new StringBuilder();
+        for (char c : password.toCharArray())
+            res.append((char) (c ^ KEY));
+        return res.toString();
     }
 
     @Override
@@ -68,13 +76,6 @@ public abstract class AbstractAccount implements Person {
 
     public void setContactPhone(String contactPhone) {
         this.contactPhone = contactPhone;
-    }
-
-    public static String codePassword(String password) {
-        StringBuilder res = new StringBuilder();
-        for (char c : password.toCharArray())
-            res.append((char) (c ^ KEY));
-        return res.toString();
     }
 
     @Override

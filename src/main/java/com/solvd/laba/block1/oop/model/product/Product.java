@@ -83,16 +83,12 @@ public class Product {
         this.description = description;
     }
 
-    public void setCreditOptions(List<CreditOption> creditOptions) {
-        this.creditOptions = creditOptions;
-    }
-
     public List<CreditOption> getCreditOptions() {
         return creditOptions;
     }
 
-    public void setReviews(List<Review> reviews) {
-        this.reviews = reviews;
+    public void setCreditOptions(List<CreditOption> creditOptions) {
+        this.creditOptions = creditOptions;
     }
 
     public void addReview(Review review) {
@@ -103,8 +99,8 @@ public class Product {
         return reviews;
     }
 
-    public void setCharacteristics(Map<String, String> characteristics) {
-        this.characteristics = characteristics;
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 
     public void addCharacteristic(String name, String value) {
@@ -113,6 +109,10 @@ public class Product {
 
     public Map<String, String> getCharacteristics() {
         return characteristics;
+    }
+
+    public void setCharacteristics(Map<String, String> characteristics) {
+        this.characteristics = characteristics;
     }
 
     public long getId() {

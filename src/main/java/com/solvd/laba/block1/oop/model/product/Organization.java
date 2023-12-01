@@ -19,12 +19,12 @@ public class Organization {
         this.name = name;
     }
 
-    public void setCreator(UserAccount user) {
-        this.creator = user;
-    }
-
     public UserAccount getCreator() {
         return creator;
+    }
+
+    public void setCreator(UserAccount user) {
+        this.creator = user;
     }
 
     @Override
