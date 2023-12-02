@@ -2,6 +2,7 @@ package com.solvd.laba.block1.oop.model.storage;
 
 import com.solvd.laba.block1.oop.exceptions.AmountException;
 import com.solvd.laba.block1.oop.exceptions.NoSuchItemException;
+import com.solvd.laba.block1.oop.model.interfaces.Iterator;
 import com.solvd.laba.block1.oop.model.interfaces.Storage;
 import com.solvd.laba.block1.oop.model.product.Product;
 
@@ -61,6 +62,14 @@ public class ProductStorage implements Storage<Product> {
             current = current.next;
         }
         return 0;
+    }
+
+    public void forEach(Iterator<Product> iterator) {
+        Node current = first;
+        while (current != null) {
+            iterator.manipulate(current.product);
+            current = current.next;
+        }
     }
 
     private static class Node {

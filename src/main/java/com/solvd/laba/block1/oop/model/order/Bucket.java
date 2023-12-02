@@ -6,7 +6,6 @@ import com.solvd.laba.block1.oop.model.users.UserAccount;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
 public class Bucket implements Countable {
     private final UserAccount user;
@@ -48,6 +47,6 @@ public class Bucket implements Countable {
 
     @Override
     public double getTotal() {
-        return products.stream().filter(Objects::nonNull).mapToDouble(Product::getPrice).sum();
+        return products.stream().filter(p -> p != null).mapToDouble(p -> p.getPrice()).sum();
     }
 }

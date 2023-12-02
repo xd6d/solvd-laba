@@ -2,7 +2,9 @@ package com.solvd.laba.block1.oop;
 
 
 import com.solvd.laba.block1.oop.exceptions.*;
+import com.solvd.laba.block1.oop.model.enums.EnterpriseType;
 import com.solvd.laba.block1.oop.model.enums.PaymentMethod;
+import com.solvd.laba.block1.oop.model.enums.Recommendation;
 import com.solvd.laba.block1.oop.model.interfaces.Defaults;
 import com.solvd.laba.block1.oop.model.interfaces.Storage;
 import com.solvd.laba.block1.oop.model.order.Bucket;
@@ -10,7 +12,6 @@ import com.solvd.laba.block1.oop.model.order.Order;
 import com.solvd.laba.block1.oop.model.order.PromoCode;
 import com.solvd.laba.block1.oop.model.product.*;
 import com.solvd.laba.block1.oop.model.storage.ProductStorage;
-import com.solvd.laba.block1.oop.model.users.AbstractAccount;
 import com.solvd.laba.block1.oop.model.users.UserAccount;
 import com.solvd.laba.block1.oop.services.ProductStorageService;
 import org.apache.logging.log4j.LogManager;
@@ -18,6 +19,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Calendar;
 import java.util.Formatter;
+import java.util.Random;
 
 public class Demo {
     private static final Logger LOGGER = LogManager.getLogger(Demo.class);
@@ -25,18 +27,26 @@ public class Demo {
     public static void main(String[] args) {
         //creating users base
         UserAccount me = new UserAccount("Artem", "Kurkin",
-                "email@example.com", "+12345678", "password");
+                "email@example.com", "+12345678", "password", () -> {
+            Random random = new Random();
+            int key1 = random.nextInt();
+            int key2 = random.nextInt();
+            int key3 = random.nextInt();
+            int max = Math.max(key1, key2);
+            return Math.max(max, key3);
+        });
         LOGGER.info("Me: " + me);
         UserAccount seller1 = new UserAccount("John", "White",
                 "john@example.com", "+11123456", "qwerty");
         UserAccount seller2 = new UserAccount("Julia", "Black",
                 "julia@example.com", "+98765432", "123456_");
-        LOGGER.info("Coded password: " + AbstractAccount.codePassword(me.getPassword()));
-        LOGGER.warn("Decoded password: " + AbstractAccount.codePassword(AbstractAccount.codePassword(me.getPassword())));
+        LOGGER.info("Coded password: " + me.codePassword());
+        me.setPassword(me.codePassword());
+        LOGGER.warn("Decoded password: " + me.codePassword());
 
         //creating organizations
-        Organization shop1 = new Organization("Best Technics", seller1);
-        Organization shop2 = new Organization("Best Shop", seller2);
+        Organization shop1 = new Organization("Best Technics", seller1, EnterpriseType.PRIVATE);
+        Organization shop2 = new Organization("Best Shop", seller2, EnterpriseType.COLLECTIVE_OWNERSHIP);
 
         //creating categories
         Category tv = new Category("TV");
@@ -76,6 +86,9 @@ public class Demo {
         storageService.addProducts(storage, zaraShirt, 30);
         storageService.addProducts(storage, zaraShirt, 10);
         storageService.addProducts(storage, levisJeans, 30);
+        StringBuilder productsInStorage = new StringBuilder();
+        storage.forEach(p -> productsInStorage.append(p.getName()).append("\n"));
+        LOGGER.debug("Current products at storage: " + productsInStorage);
         LOGGER.info("Current Zara shirts amount at storage: " + storage.getAmount(zaraShirt));
 
         //create order and promo code
@@ -88,12 +101,13 @@ public class Demo {
         PromoCode promoCode80 = new PromoCode("promo-code", 0.8, expiresAt.getTime());
         try {
             Order myOrder = new Order(me, myBucket, me.getContactPhone(), "Kyiv", PaymentMethod.CASH, promoCode80);
-
+            myOrder.setNextStatus();
             //Get price of order and output it
             double total = myOrder.getTotal();
             LOGGER.info("My order: " + myOrder);
             LOGGER.info("Total by bucket: " + myBucket.getTotal());
             LOGGER.info("Total by order: " + total);
+            LOGGER.info("Commission for shop: " + myOrder.getCommission());
         } catch (AccessDeniedException e) {
             LOGGER.warn(Defaults.EXCEPTION_MESSAGE.formatted(e));
         }
@@ -101,25 +115,27 @@ public class Demo {
         //create review
         try {
             if (levisJeans != null) {
-                levisJeans.addReview(new Review(levisJeans, me, -5, "Awful"));
+                levisJeans.addReview(new Review(levisJeans, me, 1.25, "Awful", Recommendation.NOT_RECOMMEND));
             }
-        } catch (RatingBoundsException | NullPointerException e) {
+        } catch (RatingBoundsException e) {
             LOGGER.warn(Defaults.EXCEPTION_MESSAGE.formatted(e));
         }
         try {
             if (zaraShirt != null) {
-                zaraShirt.addReview(new Review(zaraShirt, me, 4.4, "Like it, but not perfect"));
+                zaraShirt.addReview(new Review(zaraShirt, me, 4.4, "Like it, but not perfect", Recommendation.RECOMMEND));
             }
         } catch (RatingBoundsException e) {
             LOGGER.warn(Defaults.EXCEPTION_MESSAGE.formatted(e));
         }
         try {
             if (levisJeans != null) {
-                levisJeans.addReview(new Review(levisJeans, me, 5, "I dress them everytime"));
+                levisJeans.addReview(new Review(levisJeans, me, 5, "I dress them everytime", Recommendation.RECOMMEND));
             }
         } catch (RatingBoundsException e) {
             LOGGER.warn(Defaults.EXCEPTION_MESSAGE.formatted(e));
         }
+
+        LOGGER.info("Total rating for " + levisJeans.getName() + ": " + levisJeans.getTotalRating());
 
         try (Formatter formatter = new Formatter()) {
             int removeAmount = 2;

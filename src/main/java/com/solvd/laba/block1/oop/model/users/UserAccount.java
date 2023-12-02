@@ -1,5 +1,6 @@
 package com.solvd.laba.block1.oop.model.users;
 
+import com.solvd.laba.block1.oop.model.interfaces.NumberGenerator;
 import com.solvd.laba.block1.oop.model.order.Bucket;
 
 public class UserAccount extends AbstractAccount {
@@ -9,6 +10,11 @@ public class UserAccount extends AbstractAccount {
     public UserAccount(String name, String lastName, String email, String contactPhone, String password) {
         super(name, lastName, email, contactPhone, password);
         this.blocked = false;
+    }
+
+    public UserAccount(String name, String lastName, String email, String contactPhone, String password,
+                       NumberGenerator<Integer> numberGenerator) {
+        super(name, lastName, email, contactPhone, password, numberGenerator);
     }
 
     public Bucket getBucket() {

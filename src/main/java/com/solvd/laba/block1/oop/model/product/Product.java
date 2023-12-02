@@ -1,6 +1,7 @@
 package com.solvd.laba.block1.oop.model.product;
 
 import com.solvd.laba.block1.oop.exceptions.NegativePriceException;
+import com.solvd.laba.block1.oop.model.enums.Recommendation;
 import com.solvd.laba.block1.oop.model.interfaces.Defaults;
 
 import java.util.*;
@@ -103,6 +104,15 @@ public class Product {
         this.reviews = reviews;
     }
 
+    public double getTotalRating() {
+        return reviews.stream().mapToDouble(r -> {
+            if (r.getRecommendation().equals(Recommendation.NOT_RECOMMEND))
+                return r.getRecommendation().getMultiplier() * (Defaults.MAX_RATE - r.getRate());
+            else
+                return r.getRecommendation().getMultiplier() * r.getRate();
+        }).sum();
+    }
+
     public void addCharacteristic(String name, String value) {
         characteristics.put(name, value);
     }
@@ -113,6 +123,11 @@ public class Product {
 
     public void setCharacteristics(Map<String, String> characteristics) {
         this.characteristics = characteristics;
+    }
+
+    public boolean matchesGivenCharacteristic(String characteristic, String value) {
+        return characteristics.entrySet().stream()
+                .anyMatch(e -> e.getKey().equals(characteristic) && e.getValue().equals(value));
     }
 
     public long getId() {
