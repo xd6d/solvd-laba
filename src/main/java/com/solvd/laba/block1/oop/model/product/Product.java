@@ -105,12 +105,14 @@ public class Product {
     }
 
     public double getTotalRating() {
-        return reviews.stream().mapToDouble(r -> {
-            if (r.getRecommendation().equals(Recommendation.NOT_RECOMMEND))
-                return r.getRecommendation().getMultiplier() * (Defaults.MAX_RATE - r.getRate());
-            else
-                return r.getRecommendation().getMultiplier() * r.getRate();
-        }).sum();
+        return reviews.stream()
+                .mapToDouble(r -> {
+                    if (r.getRecommendation().equals(Recommendation.NOT_RECOMMEND))
+                        return r.getRecommendation().getMultiplier() * (Defaults.MAX_RATE - r.getRate());
+                    else
+                        return r.getRecommendation().getMultiplier() * r.getRate();
+                })
+                .sum();
     }
 
     public void addCharacteristic(String name, String value) {

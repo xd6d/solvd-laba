@@ -47,6 +47,9 @@ public class Bucket implements Countable {
 
     @Override
     public double getTotal() {
-        return products.stream().filter(p -> p != null).mapToDouble(p -> p.getPrice()).sum();
+        return products.stream()
+                .filter(p -> p != null)
+                .mapToDouble(p -> p.getPrice())
+                .sum();
     }
 }
