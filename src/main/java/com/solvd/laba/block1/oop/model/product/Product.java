@@ -19,8 +19,9 @@ public class Product {
     private List<CreditOption> creditOptions;
     private List<Review> reviews;
     private Map<String, String> characteristics;
+    private boolean adult;
 
-    public Product(String name, double price, Category category, Brand brand, Organization seller)
+    public Product(String name, double price, Category category, Brand brand, Organization seller, boolean adult)
             throws NegativePriceException {
         if (price < 0)
             throw new NegativePriceException("Set positive price. Price: %f.2".formatted(price));
@@ -33,6 +34,7 @@ public class Product {
         creditOptions = new ArrayList<>(Defaults.CREDITOPTIONS_CAPACITY);
         reviews = new LinkedList<>();
         characteristics = new HashMap<>();
+        this.adult = adult;
     }
 
     public String getName() {
@@ -95,15 +97,15 @@ public class Product {
         return reviews;
     }
 
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
+
     public List<Review> getReviews(int page, int size) {
         return reviews.stream()
                 .skip((long) size * (page - 1))
                 .limit(size)
                 .collect(Collectors.toList());
-    }
-
-    public void setReviews(List<Review> reviews) {
-        this.reviews = reviews;
     }
 
     public double getTotalRating() {
@@ -161,5 +163,13 @@ public class Product {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public boolean isAdult() {
+        return adult;
+    }
+
+    public void setAdult(boolean adult) {
+        this.adult = adult;
     }
 }

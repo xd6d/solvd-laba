@@ -1,11 +1,14 @@
 package com.solvd.laba.block1.oop.model.order;
 
+import com.solvd.laba.block1.oop.exceptions.NoSuchItemException;
 import com.solvd.laba.block1.oop.model.interfaces.Countable;
 import com.solvd.laba.block1.oop.model.product.Product;
 import com.solvd.laba.block1.oop.model.users.UserAccount;
 
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public class Bucket implements Countable {
     private final UserAccount user;
@@ -48,8 +51,15 @@ public class Bucket implements Countable {
     @Override
     public double getTotal() {
         return products.stream()
-                .filter(p -> p != null)
-                .mapToDouble(p -> p.getPrice())
+                .filter(Objects::nonNull)
+                .mapToDouble(Product::getPrice)
                 .sum();
+    }
+
+    public Product getMostExpensive() throws NoSuchItemException {
+        return products.stream()
+                .filter(Objects::nonNull)
+                .max(Comparator.comparingDouble(Product::getPrice))
+                .orElseThrow(() -> new NoSuchItemException("Your bucket is empty"));
     }
 }

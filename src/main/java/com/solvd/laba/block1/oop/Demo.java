@@ -19,6 +19,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Calendar;
 import java.util.Formatter;
+import java.util.GregorianCalendar;
 import java.util.Random;
 
 public class Demo {
@@ -27,19 +28,23 @@ public class Demo {
     public static void main(String[] args) {
         //creating users base
         UserAccount me = new UserAccount("Artem", "Kurkin",
-                "email@example.com", "+12345678", "password", () -> {
-            Random random = new Random();
-            int key1 = random.nextInt();
-            int key2 = random.nextInt();
-            int key3 = random.nextInt();
-            int max = Math.max(key1, key2);
-            return Math.max(max, key3);
-        });
+                "email@example.com", "+12345678", "password",
+                new GregorianCalendar(2006, Calendar.DECEMBER, 2),
+                () -> {
+                    Random random = new Random();
+                    int key1 = random.nextInt();
+                    int key2 = random.nextInt();
+                    int key3 = random.nextInt();
+                    int max = Math.max(key1, key2);
+                    return Math.max(max, key3);
+                });
         LOGGER.info("Me: " + me);
         UserAccount seller1 = new UserAccount("John", "White",
-                "john@example.com", "+11123456", "qwerty");
+                "john@example.com", "+11123456", "qwerty",
+                new GregorianCalendar(2000, Calendar.DECEMBER, 21));
         UserAccount seller2 = new UserAccount("Julia", "Black",
-                "julia@example.com", "+98765432", "123456_");
+                "julia@example.com", "+98765432", "123456_",
+                new GregorianCalendar(2000, Calendar.MARCH, 11));
         LOGGER.info("Coded password: " + me.codePassword());
         me.setPassword(me.codePassword());
         LOGGER.warn("Decoded password: " + me.codePassword());
@@ -60,20 +65,20 @@ public class Demo {
         //create products
         Product samsungTV = null;
         try {
-            samsungTV = new Product("Samsung SmartTV 1", 1000, tv, samsung, shop1);
+            samsungTV = new Product("Samsung SmartTV 1", 1000, tv, samsung, shop1, false);
         } catch (NegativePriceException e) {
             LOGGER.warn(Defaults.EXCEPTION_MESSAGE.formatted(e));
         }
         Product zaraShirt = null;
         try {
-            zaraShirt = new Product("Zara shirt black", 50, clothes, zara, shop2);
+            zaraShirt = new Product("Zara shirt black", 50, clothes, zara, shop2, false);
             zaraShirt.addCharacteristic("Size", "M");
         } catch (NegativePriceException e) {
             LOGGER.warn(Defaults.EXCEPTION_MESSAGE.formatted(e));
         }
         Product levisJeans = null;
         try {
-            levisJeans = new Product("Levis jeans classic", 70, clothes, levis, shop2);
+            levisJeans = new Product("Levis jeans classic", 70, clothes, levis, shop2, false);
             levisJeans.addCharacteristic("Size", "M");
         } catch (NegativePriceException e) {
             LOGGER.warn(Defaults.EXCEPTION_MESSAGE.formatted(e));

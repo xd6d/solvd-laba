@@ -6,6 +6,7 @@ import com.solvd.laba.block1.oop.model.enums.CreditCardType;
 import com.solvd.laba.block1.oop.model.enums.PaymentMethod;
 import com.solvd.laba.block1.oop.model.enums.Status;
 import com.solvd.laba.block1.oop.model.interfaces.Countable;
+import com.solvd.laba.block1.oop.model.product.Product;
 import com.solvd.laba.block1.oop.model.users.UserAccount;
 
 import java.util.HashSet;
@@ -36,6 +37,9 @@ public class Order implements Countable {
         if (user.isBlocked())
             throw new AccessDeniedException("User %s %s is blocked. You can not order"
                     .formatted(user.getName(), user.getLastName()));
+        if (!user.isAdult() && bucket.getProducts().stream()
+                .anyMatch(Product::isAdult))
+            throw new AccessDeniedException("You can not order it since your age is under 18");
         this.user = user;
         this.bucket = bucket;
         this.contactPhones = contactPhones;

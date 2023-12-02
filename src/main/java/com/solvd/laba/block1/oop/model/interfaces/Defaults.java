@@ -15,4 +15,6 @@ public interface Defaults {
             res.append((char) (c ^ key));
         return res.toString();
     };
+
+    long YEARS_IN_MILLIS_18 = 6575L * 24 * 60 * 60 * 1000;
 }
