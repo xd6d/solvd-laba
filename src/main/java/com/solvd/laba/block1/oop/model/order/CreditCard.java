@@ -1,4 +1,4 @@
-package com.solvd.laba.block1.oop.model;
+package com.solvd.laba.block1.oop.model.order;
 
 import com.solvd.laba.block1.oop.model.enums.CreditCardType;
 

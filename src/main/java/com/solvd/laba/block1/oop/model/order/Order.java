@@ -2,7 +2,6 @@ package com.solvd.laba.block1.oop.model.order;
 
 import com.solvd.laba.block1.oop.exceptions.AccessDeniedException;
 import com.solvd.laba.block1.oop.exceptions.CreditCardMismatchException;
-import com.solvd.laba.block1.oop.model.CreditCard;
 import com.solvd.laba.block1.oop.model.enums.CreditCardType;
 import com.solvd.laba.block1.oop.model.enums.PaymentMethod;
 import com.solvd.laba.block1.oop.model.enums.Status;
