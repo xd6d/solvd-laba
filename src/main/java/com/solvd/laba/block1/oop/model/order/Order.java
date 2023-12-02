@@ -31,11 +31,6 @@ public class Order implements Countable {
         contactPhones.add(contactPhone);
     }
 
-    public Order(UserAccount user, Bucket bucket, String contactPhone, String address, PaymentMethod paymentMethod)
-            throws AccessDeniedException {
-        this(user, bucket, contactPhone, address, paymentMethod, null);
-    }
-
     public Order(UserAccount user, Bucket bucket, Set<String> contactPhones, String address, PaymentMethod paymentMethod,
                  PromoCode promoCode) throws AccessDeniedException {
         if (user.isBlocked())

@@ -5,6 +5,7 @@ import com.solvd.laba.block1.oop.model.enums.Recommendation;
 import com.solvd.laba.block1.oop.model.interfaces.Defaults;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Product {
     private static long nextId = 0;
@@ -32,12 +33,6 @@ public class Product {
         creditOptions = new ArrayList<>(Defaults.CREDITOPTIONS_CAPACITY);
         reviews = new LinkedList<>();
         characteristics = new HashMap<>();
-    }
-
-    public Product(String name, double price, Category category, Brand brand, Organization seller, String description)
-            throws NegativePriceException {
-        this(name, price, category, brand, seller);
-        this.description = description;
     }
 
     public String getName() {
@@ -100,6 +95,13 @@ public class Product {
         return reviews;
     }
 
+    public List<Review> getReviews(int page, int size) {
+        return reviews.stream()
+                .skip((long) size * (page - 1))
+                .limit(size)
+                .collect(Collectors.toList());
+    }
+
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
     }
@@ -113,6 +115,12 @@ public class Product {
                         return r.getRecommendation().getMultiplier() * r.getRate();
                 })
                 .sum();
+    }
+
+    public List<Review> getPositiveReviews() {
+        return reviews.stream()
+                .filter(r -> r.getRecommendation() == Recommendation.RECOMMEND)
+                .collect(Collectors.toList());
     }
 
     public void addCharacteristic(String name, String value) {

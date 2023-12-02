@@ -6,6 +6,8 @@ import com.solvd.laba.block1.oop.model.interfaces.Iterator;
 import com.solvd.laba.block1.oop.model.interfaces.Storage;
 import com.solvd.laba.block1.oop.model.product.Product;
 
+import java.util.Map;
+
 public class ProductStorage implements Storage<Product> {
     private Node first;
     private Node last;
