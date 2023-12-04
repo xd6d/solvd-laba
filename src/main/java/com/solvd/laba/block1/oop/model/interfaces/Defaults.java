@@ -12,7 +12,7 @@ public interface Defaults {
 
     String EXCEPTION_MESSAGE = "Resolved %s";
 
-    Coder<String, Integer> STRING_CODER = (in, key) -> {
+    UnaryCoder<String, Integer> STRING_UNARY_CODER = (in, key) -> {
         StringBuilder res = new StringBuilder();
         for (char c : in.toCharArray())
             res.append((char) (c ^ key));
@@ -27,4 +27,8 @@ public interface Defaults {
         }
         return password.toString();
     };
+
+    UniversalCoder<String, Integer, Integer> STRING_TO_INT_CODER = (in, key) -> in.hashCode() ^ key;
+
+    String SECRET_ENCRYPTION_KEY = ")S0ME-SUP3R_S1CR1T_ENCRYPTION_KEY==";
 }
