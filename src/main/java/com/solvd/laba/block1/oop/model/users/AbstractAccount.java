@@ -76,6 +76,10 @@ public abstract class AbstractAccount implements Person {
         this.password = password;
     }
 
+    public void setRandomPassword() {
+        this.password = Defaults.RELIABLE_PASSWORD_GENERATOR.get();
+    }
+
     public String getContactPhone() {
         return contactPhone;
     }

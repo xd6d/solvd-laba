@@ -35,6 +35,7 @@ public class Demo {
             int max = Math.max(key1, key2);
             return Math.max(max, key3);
         });
+        me.setRandomPassword();
         LOGGER.info("Me: " + me);
         UserAccount seller1 = new UserAccount("John", "White",
                 "john@example.com", "+11123456", "qwerty");
@@ -86,9 +87,19 @@ public class Demo {
         storageService.addProducts(storage, zaraShirt, 30);
         storageService.addProducts(storage, zaraShirt, 10);
         storageService.addProducts(storage, levisJeans, 30);
-        StringBuilder productsInStorage = new StringBuilder();
-        storage.forEach(p -> productsInStorage.append(p.getName()).append("\n"));
+        StringBuilder productsInStorage = new StringBuilder("\n");
+        storage.forEach(p -> productsInStorage.append(p.getProduct().getName()).append("\n"));
         LOGGER.debug("Current products at storage: " + productsInStorage);
+        Storage<Product> storage10 = storage.filter(n -> n.getAmount() > 10);
+        StringBuilder productsInStorage1 = new StringBuilder("\n");
+        storage10.forEach(p -> productsInStorage1.append(p.getProduct().getName()).append("\n"));
+        LOGGER.debug("Current products at storage with amount > 10: " + productsInStorage1);
+        LOGGER.debug("Its total amount of products: " + storage10.sum(ProductStorage.Node::getAmount));
+        LOGGER.debug("Total value of its products: " +
+                storage10.mapToDouble(n -> n.getProduct().getPrice() * n.getAmount())
+                        .stream()
+                        .mapToDouble(Double::doubleValue)
+                        .sum());
         LOGGER.info("Current Zara shirts amount at storage: " + storage.getAmount(zaraShirt));
 
         //create order and promo code
