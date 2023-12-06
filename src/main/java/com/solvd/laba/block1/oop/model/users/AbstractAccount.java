@@ -1,6 +1,6 @@
 package com.solvd.laba.block1.oop.model.users;
 
-import com.solvd.laba.block1.oop.model.interfaces.Coder;
+import com.solvd.laba.block1.oop.model.interfaces.UnaryCoder;
 import com.solvd.laba.block1.oop.model.interfaces.Defaults;
 import com.solvd.laba.block1.oop.model.interfaces.NumberGenerator;
 import com.solvd.laba.block1.oop.model.interfaces.Person;
@@ -9,7 +9,7 @@ import java.util.Objects;
 import java.util.Random;
 
 public abstract class AbstractAccount implements Person {
-    private static final Coder<String, Integer> coder = Defaults.STRING_CODER;
+    private static final UnaryCoder<String, Integer> UNARY_CODER = Defaults.STRING_UNARY_CODER;
     protected String name;
     protected String lastName;
     protected String email;
@@ -37,7 +37,7 @@ public abstract class AbstractAccount implements Person {
     }
 
     public String codePassword() {
-        return coder.code(password, key);
+        return UNARY_CODER.code(password, Defaults.STRING_TO_INT_CODER.code(Defaults.SECRET_ENCRYPTION_KEY, this.key));
     }
 
     @Override
@@ -74,6 +74,10 @@ public abstract class AbstractAccount implements Person {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setRandomPassword() {
+        this.password = Defaults.RELIABLE_PASSWORD_GENERATOR.get();
     }
 
     public String getContactPhone() {
