@@ -31,13 +31,13 @@ public class Demo {
                 "email@example.com", "+12345678", "password",
                 new GregorianCalendar(2006, Calendar.DECEMBER, 2),
                 () -> {
-            Random random = new Random();
-            int key1 = random.nextInt();
-            int key2 = random.nextInt();
-            int key3 = random.nextInt();
-            int max = Math.max(key1, key2);
-            return Math.max(max, key3);
-        });
+                    Random random = new Random();
+                    int key1 = random.nextInt();
+                    int key2 = random.nextInt();
+                    int key3 = random.nextInt();
+                    int max = Math.max(key1, key2);
+                    return Math.max(max, key3);
+                });
         me.setRandomPassword();
         LOGGER.info("Me: " + me);
         UserAccount seller1 = new UserAccount("John", "White",

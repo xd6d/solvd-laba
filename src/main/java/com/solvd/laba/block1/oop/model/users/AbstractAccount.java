@@ -1,9 +1,9 @@
 package com.solvd.laba.block1.oop.model.users;
 
-import com.solvd.laba.block1.oop.model.interfaces.UnaryCoder;
 import com.solvd.laba.block1.oop.model.interfaces.Defaults;
 import com.solvd.laba.block1.oop.model.interfaces.NumberGenerator;
 import com.solvd.laba.block1.oop.model.interfaces.Person;
+import com.solvd.laba.block1.oop.model.interfaces.UnaryCoder;
 
 import java.util.Objects;
 import java.util.Random;
