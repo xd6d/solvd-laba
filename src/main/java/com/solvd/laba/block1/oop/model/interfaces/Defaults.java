@@ -19,6 +19,8 @@ public interface Defaults {
         return res.toString();
     };
 
+    long YEARS_IN_MILLIS_18 = 6575L * 24 * 60 * 60 * 1000;
+
     Supplier<String> RELIABLE_PASSWORD_GENERATOR = () -> {
         StringBuilder password = new StringBuilder();
         Random random = new Random();
