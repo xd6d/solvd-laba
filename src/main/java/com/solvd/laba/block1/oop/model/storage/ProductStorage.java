@@ -5,6 +5,13 @@ import com.solvd.laba.block1.oop.exceptions.NoSuchItemException;
 import com.solvd.laba.block1.oop.model.interfaces.Storage;
 import com.solvd.laba.block1.oop.model.product.Product;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+import java.util.function.ToDoubleFunction;
+import java.util.function.ToIntFunction;
+
 public class ProductStorage implements Storage<Product> {
     private Node first;
     private Node last;
@@ -63,16 +70,98 @@ public class ProductStorage implements Storage<Product> {
         return 0;
     }
 
-    private static class Node {
-        Node previous;
-        Node next;
-        Product product;
-        int amount;
+    public void forEach(Consumer<Node> consumer) {
+        Node current = first;
+        while (current != null) {
+            consumer.accept(current);
+            current = current.next;
+        }
+    }
+
+    @Override
+    public ProductStorage filter(Predicate<Node> filter) {
+        ProductStorage newProductStorage = new ProductStorage();
+        Node current = first;
+        while (current != null) {
+            if (filter.test(current)) {
+                if (newProductStorage.first == null) {
+                    newProductStorage.first = new Node(null, null, current.product, current.amount);
+                    newProductStorage.last = newProductStorage.first;
+                } else {
+                    Node newNode = new Node(newProductStorage.last, null, current.product, current.amount);
+                    newProductStorage.last.next = newNode;
+                    newProductStorage.last = newNode;
+                }
+            }
+            current = current.next;
+        }
+        return newProductStorage;
+    }
+
+    @Override
+    public long sum(ToIntFunction<Node> toIntFunction) {
+        long sum = 0;
+        Node current = first;
+        while (current != null) {
+            sum += toIntFunction.applyAsInt(current);
+            current = current.next;
+        }
+        return sum;
+    }
+
+    @Override
+    public List<Double> mapToDouble(ToDoubleFunction<Node> toDoubleFunction) {
+        List<Double> list = new ArrayList<>();
+        Node current = first;
+        while (current != null) {
+            list.add(toDoubleFunction.applyAsDouble(current));
+            current = current.next;
+        }
+        return list;
+    }
+
+    public static class Node {
+        private Node previous;
+        private Node next;
+        private Product product;
+        private int amount;
 
         private Node(Node previous, Node next, Product product, int amount) {
             this.previous = previous;
             this.next = next;
             this.product = product;
+            this.amount = amount;
+        }
+
+        public Node getPrevious() {
+            return previous;
+        }
+
+        public void setPrevious(Node previous) {
+            this.previous = previous;
+        }
+
+        public Node getNext() {
+            return next;
+        }
+
+        public void setNext(Node next) {
+            this.next = next;
+        }
+
+        public Product getProduct() {
+            return product;
+        }
+
+        public void setProduct(Product product) {
+            this.product = product;
+        }
+
+        public int getAmount() {
+            return amount;
+        }
+
+        public void setAmount(int amount) {
             this.amount = amount;
         }
     }

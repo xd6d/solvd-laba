@@ -8,10 +8,12 @@ public final class AdminAccount extends AbstractAccount implements AdminsPanel {
         super(name, lastName, email, contactPhone, password);
     }
 
+    @Override
     public void blockUser(UserAccount user) {
         user.setBlocked(true);
     }
 
+    @Override
     public void unblockUser(UserAccount user) {
         user.setBlocked(false);
     }

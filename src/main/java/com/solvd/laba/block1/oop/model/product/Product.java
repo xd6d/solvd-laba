@@ -1,9 +1,11 @@
 package com.solvd.laba.block1.oop.model.product;
 
 import com.solvd.laba.block1.oop.exceptions.NegativePriceException;
+import com.solvd.laba.block1.oop.model.enums.Recommendation;
 import com.solvd.laba.block1.oop.model.interfaces.Defaults;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Product {
     private static long nextId = 0;
@@ -17,8 +19,9 @@ public class Product {
     private List<CreditOption> creditOptions;
     private List<Review> reviews;
     private Map<String, String> characteristics;
+    private boolean adult;
 
-    public Product(String name, double price, Category category, Brand brand, Organization seller)
+    public Product(String name, double price, Category category, Brand brand, Organization seller, boolean adult)
             throws NegativePriceException {
         if (price < 0)
             throw new NegativePriceException("Set positive price. Price: %f.2".formatted(price));
@@ -31,12 +34,7 @@ public class Product {
         creditOptions = new ArrayList<>(Defaults.CREDITOPTIONS_CAPACITY);
         reviews = new LinkedList<>();
         characteristics = new HashMap<>();
-    }
-
-    public Product(String name, double price, Category category, Brand brand, Organization seller, String description)
-            throws NegativePriceException {
-        this(name, price, category, brand, seller);
-        this.description = description;
+        this.adult = adult;
     }
 
     public String getName() {
@@ -103,6 +101,30 @@ public class Product {
         this.reviews = reviews;
     }
 
+    public List<Review> getReviews(int page, int size) {
+        return reviews.stream()
+                .skip((long) size * (page - 1))
+                .limit(size)
+                .collect(Collectors.toList());
+    }
+
+    public double getTotalRating() {
+        return reviews.stream()
+                .mapToDouble(r -> {
+                    if (r.getRecommendation().equals(Recommendation.NOT_RECOMMEND))
+                        return r.getRecommendation().getMultiplier() * (Defaults.MAX_RATE - r.getRate());
+                    else
+                        return r.getRecommendation().getMultiplier() * r.getRate();
+                })
+                .sum();
+    }
+
+    public List<Review> getPositiveReviews() {
+        return reviews.stream()
+                .filter(r -> r.getRecommendation() == Recommendation.RECOMMEND)
+                .collect(Collectors.toList());
+    }
+
     public void addCharacteristic(String name, String value) {
         characteristics.put(name, value);
     }
@@ -113,6 +135,11 @@ public class Product {
 
     public void setCharacteristics(Map<String, String> characteristics) {
         this.characteristics = characteristics;
+    }
+
+    public boolean matchesGivenCharacteristic(String characteristic, String value) {
+        return characteristics.entrySet().stream()
+                .anyMatch(e -> e.getKey().equals(characteristic) && e.getValue().equals(value));
     }
 
     public long getId() {
@@ -136,5 +163,13 @@ public class Product {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public boolean isAdult() {
+        return adult;
+    }
+
+    public void setAdult(boolean adult) {
+        this.adult = adult;
     }
 }
