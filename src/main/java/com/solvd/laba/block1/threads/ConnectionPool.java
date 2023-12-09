@@ -7,8 +7,8 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class ConnectionPool {
-    private volatile static ConnectionPool instance;
     private static final Logger LOGGER = LogManager.getLogger(ConnectionPool.class);
+    private volatile static ConnectionPool instance;
     private final Queue<Connection> connections = new ConcurrentLinkedQueue<>();
 
     private ConnectionPool(int size) {
