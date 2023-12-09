@@ -13,7 +13,7 @@ import com.solvd.laba.block1.oop.model.order.PromoCode;
 import com.solvd.laba.block1.oop.model.product.*;
 import com.solvd.laba.block1.oop.model.storage.ProductStorage;
 import com.solvd.laba.block1.oop.model.users.UserAccount;
-import com.solvd.laba.block1.oop.services.ProductStorageService;
+import com.solvd.laba.block1.oop.service.ProductStorageService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
