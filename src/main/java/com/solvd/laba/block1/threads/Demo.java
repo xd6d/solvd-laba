@@ -3,6 +3,8 @@ package com.solvd.laba.block1.threads;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -42,10 +44,10 @@ public class Demo {
     }
 
     private static void doWithCompletableFuture(int numberOfThreads, Runnable runnable) {
-        CompletableFuture<Void>[] completableFutures = new CompletableFuture[numberOfThreads];
+        List<CompletableFuture<Void>> completableFutures = new ArrayList<>();
         for (int i = 0; i < numberOfThreads; i++) {
-            completableFutures[i] = CompletableFuture.runAsync(runnable);
+            completableFutures.add(CompletableFuture.runAsync(runnable));
         }
-        CompletableFuture.allOf(completableFutures).join();
+        CompletableFuture.allOf(completableFutures.toArray(new CompletableFuture[0])).join();
     }
 }
