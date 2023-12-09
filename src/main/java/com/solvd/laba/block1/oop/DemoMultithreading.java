@@ -3,26 +3,21 @@ package com.solvd.laba.block1.oop;
 import com.solvd.laba.block1.oop.exceptions.NegativePriceException;
 import com.solvd.laba.block1.oop.model.order.Bucket;
 import com.solvd.laba.block1.oop.model.product.Product;
-import com.solvd.laba.block1.oop.model.users.UserAccount;
 import com.solvd.laba.block1.oop.service.ProductStorageService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 public class DemoMultithreading {
     private static final Logger LOGGER = LogManager.getLogger(DemoMultithreading.class);
 
     public static void main(String[] args) throws NegativePriceException {
-        UserAccount me = new UserAccount("Artem", "Kurkin",
-                "email@example.com", "+12345678", "password",
-                new GregorianCalendar(2006, Calendar.DECEMBER, 2));
+        int bucketSize = 5000;
+        int numberOfThreads = 4;
 
         ProductStorageService service = new ProductStorageService();
-        Bucket bucket = new Bucket(me);
+        Bucket bucket = new Bucket(null);
         Product someProduct = new Product("product", 1, null, null, null, false);
-        for (int i = 0; i < 500; i++) {
+        for (int i = 0; i < bucketSize; i++) {
             bucket.addProduct(someProduct);
         }
 
@@ -33,21 +28,20 @@ public class DemoMultithreading {
         LOGGER.info("Total: " + total);
         LOGGER.info("Time in ms: " + (after - before));
 
+        //With 'class extends Thread'
         before = System.currentTimeMillis();
-        total = service.getTotalWithThreads(bucket, 4);
+        total = service.getTotalWithThreadClass(bucket, numberOfThreads);
         after = System.currentTimeMillis();
-        LOGGER.info("Executed in 4 threads");
+        LOGGER.info("Executed in " + numberOfThreads + " threads");
         LOGGER.info("Total: " + total);
         LOGGER.info("Time in ms: " + (after - before));
 
-
-
-        Runnable runnable = () -> {
-            for (Product p: bucket.getProducts()) {
-                LOGGER.debug(p);
-            }
-        };
-        Thread thread = new Thread(runnable);
-        thread.start();
+        //With Runnable
+        before = System.currentTimeMillis();
+        total = service.getTotalWithRunnable(bucket, numberOfThreads);
+        after = System.currentTimeMillis();
+        LOGGER.info("Executed in " + numberOfThreads + " threads");
+        LOGGER.info("Total: " + total);
+        LOGGER.info("Time in ms: " + (after - before));
     }
 }
