@@ -1,4 +1,4 @@
-package com.solvd.laba.block1.oop.service;
+package com.solvd.laba.block1.oop.services;
 
 import com.solvd.laba.block1.oop.exceptions.AmountException;
 import com.solvd.laba.block1.oop.exceptions.NoSuchItemException;

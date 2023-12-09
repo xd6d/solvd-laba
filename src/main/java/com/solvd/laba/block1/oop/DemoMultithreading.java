@@ -3,7 +3,7 @@ package com.solvd.laba.block1.oop;
 import com.solvd.laba.block1.oop.exceptions.NegativePriceException;
 import com.solvd.laba.block1.oop.model.order.Bucket;
 import com.solvd.laba.block1.oop.model.product.Product;
-import com.solvd.laba.block1.oop.service.ProductStorageService;
+import com.solvd.laba.block1.oop.services.ProductStorageService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -21,6 +21,7 @@ public class DemoMultithreading {
             bucket.addProduct(someProduct);
         }
 
+        //With single thread
         long before = System.currentTimeMillis();
         double total = bucket.getTotal();
         long after = System.currentTimeMillis();

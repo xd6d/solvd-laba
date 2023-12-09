@@ -1,4 +1,4 @@
-package com.solvd.laba.block1.oop.service;
+package com.solvd.laba.block1.oop.services;
 
 import com.solvd.laba.block1.oop.model.order.Bucket;
 import com.solvd.laba.block1.oop.model.product.Product;
