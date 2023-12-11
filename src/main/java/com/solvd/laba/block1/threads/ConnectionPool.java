@@ -13,7 +13,7 @@ public class ConnectionPool {
 
     private ConnectionPool(int size) {
         for (int i = 0; i < size; i++) {
-            connections.add(new Connection());
+            connections.add(new Connection(i));
         }
     }
 
